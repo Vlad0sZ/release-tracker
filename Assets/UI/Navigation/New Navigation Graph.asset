@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6271761687539378237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ac212c624cd4a46acc6d3430ae62e14, type: 3}
+  m_Name: nav_graph
+  m_EditorClassIdentifier: Unity.AppUI.Navigation::Unity.AppUI.Navigation.NavGraph
+  m_Position: {x: 0, y: 0}
+  m_Guid: 79474b59-70ad-4e72-be78-ce6f5ea5b5a8
+  m_Parent: {fileID: 0}
+  m_Actions: []
+  m_Label: 
+  m_StartDestination: {fileID: -1471047568222928053}
+--- !u!114 &-1471047568222928053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819e9866b5cc41e7ac482ba5fe89e09b, type: 3}
+  m_Name: splash
+  m_EditorClassIdentifier: Unity.AppUI.Navigation::Unity.AppUI.Navigation.NavDestination
+  m_Position: {x: -36, y: -63}
+  m_Guid: b77a1837b1b623b41ac84b77de70f60e
+  m_Parent: {fileID: -6271761687539378237}
+  m_Actions: []
+  m_Label: loading page
+  m_TemplateSettings:
+    rid: 2681954746932660122
+  m_Arguments: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 2681954746932660122
+      type: {class: DependencyDestinationTemplate, ns: Runtime.Navigation, asm: Assembly-CSharp}
+      data:
+        m_ScreenType: Runtime.UIToolkit.Views.LoadingPage, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_ShowBottomNavBar: 0
+        m_ShowAppBar: 0
+        m_ShowBackButton: 0
+        m_ShowDrawer: 0
+        m_ShowNavigationRail: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33d5b7fe0491446cbd625fd576a3105e, type: 3}
+  m_Name: New Navigation Graph
+  m_EditorClassIdentifier: Unity.AppUI.Navigation::Unity.AppUI.Navigation.NavGraphViewAsset
+  m_Nodes:
+  - {fileID: -6271761687539378237}
+  - {fileID: -1471047568222928053}

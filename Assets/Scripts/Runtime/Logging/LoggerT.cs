@@ -16,8 +16,11 @@ namespace Runtime.Logging
         /// Initializes a new instance of the Logger class using a provided log factory.
         /// </summary>
         /// <param name="logFactory">The factory used to create the inner ILogger instance.</param>
-        public Logger(ILogFactory logFactory) =>
+        public Logger(ILogFactory logFactory)
+        {
+            UnityEngine.Debug.Log($"Create logger of {typeof(T)}");
             _innerLogger = logFactory.CreateLogger<T>();
+        }
 
         /// <summary>
         /// Logs an informational message to the underlying logger.

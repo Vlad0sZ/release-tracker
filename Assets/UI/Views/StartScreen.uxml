@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ui:UXML 
+        xmlns:ui="UnityEngine.UIElements" 
+        xmlns:appui="Unity.AppUI.UI" 
+        xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" 
+        editor-extension-mode="False">
+
+
+    <appui:Panel name="root-panel">
+
+        <ui:VisualElement name="root-main">
+
+            <!-- Верхняя кнопка -->
+            <appui:Button
+                title="Создать новый"
+                style="align-self: flex-start; margin: 8px;"
+                name="createNewButton" />
+
+            <!-- Пространство между кнопкой и списком -->
+            <ui:VisualElement style="flex-grow: 1;" />
+
+            <!-- Нижняя часть со скроллом -->
+            <ui:ScrollView style="flex-grow: 1; max-height: 50%; padding: 8px;"
+                              name="previousDataScroll">
+                <!-- Здесь будут кнопки с данными -->
+                <appui:Button title="Данные 1" />
+                <appui:Button title="Данные 2" />
+                <appui:Button title="Данные 3" />
+            </ui:ScrollView>
+
+        </ui:VisualElement>
+
+    </appui:Panel>
+</ui:UXML>
