@@ -1,4 +1,5 @@
 ﻿using Runtime.Interfaces.Services;
+using Runtime.Interfaces.UI;
 using Unity.AppUI.Navigation;
 using UnityEngine.UIElements;
 
@@ -7,25 +8,24 @@ namespace Runtime.UIToolkit.Views
     /// <summary>
     /// Base View class for initialize views with UXML files.
     /// </summary>
-    public class BaseNavigationScreen : NavigationScreen
+    public abstract class BaseNavigationScreen<TViewModel> : NavigationScreen, ITemplateScreen
+        where TViewModel : IViewModel
     {
-        private readonly ITemplateLoader _templateLoader;
+        protected readonly TViewModel BindingContext;
 
-        protected BaseNavigationScreen(ITemplateLoader templateLoader) =>
-            _templateLoader = templateLoader;
+        protected BaseNavigationScreen(TViewModel bindingContext) =>
+            BindingContext = bindingContext;
 
-        protected void InitializeComponents()
+        protected virtual void InitializeComponent() =>
+            this.StretchToParentSize();
+
+        public virtual void ApplyTemplate(VisualTreeAsset template)
         {
-            var treeAsset = _templateLoader.GetTemplate(this.GetType().Name);
-            if (treeAsset != null)
-                treeAsset.CloneTree(this);
+            var root = template.Instantiate();
+            root.StretchToParentSize();
+            hierarchy.Add(root);
 
-
-            OnComponentInitialized();
-        }
-
-        protected virtual void OnComponentInitialized()
-        {
+            InitializeComponent();
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Runtime.Core
     /// </remarks>
     /// </summary>
     [UsedImplicitly]
-    public sealed class DataContainer : IInitializeLoader, IDataContainer
+    public sealed class DataContainer : IDataContainer, IInitializeLoader
     {
         /// <summary>
         /// Number of Parallel operation of loading.

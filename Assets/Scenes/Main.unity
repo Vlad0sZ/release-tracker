@@ -460,7 +460,7 @@ MonoBehaviour:
   m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
-  m_PanelSettings: {fileID: 11400000, guid: d7cc2bb1d137986488eaefc23220f17a, type: 2}
+  m_PanelSettings: {fileID: 11400000, guid: 914223c189bf104468edee62cb9a72aa, type: 2}
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 0}
   m_SortingOrder: 0
@@ -486,6 +486,9 @@ MonoBehaviour:
   uiDocument: {fileID: 1367629225}
   templates:
   - {fileID: 9197481963319205126, guid: 0d4012cf711b450bb75e9b1661822993, type: 3}
+  - {fileID: 9197481963319205126, guid: c077abac500cfd644b556685c5f77ee8, type: 3}
+  - {fileID: 9197481963319205126, guid: 40fac468573848409531d77b1f7eefa3, type: 3}
+  - {fileID: 9197481963319205126, guid: 392f8137541042c9b104a25ed55acd34, type: 3}
   navigationGraph: {fileID: 11400000, guid: a391e19c11de5ba47ad778ad137ed382, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

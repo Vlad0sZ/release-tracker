@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ui:UXML
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:appui="Unity.AppUI.UI"
+    xsi="http://www.w3.org/2001/XMLSchema-instance"
+    editor="UnityEditor.UIElements"
+    noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd"
+    editor-extension-mode="False">
+
+    <ui:VisualElement class="mvvm-redux-main-content"
+                      style="flex-grow: 1; padding: 16px; flex-direction: column; align-items: center;">
+        <!-- Row 1: Release Name -->
+        <ui:VisualElement style="flex-direction: row; width: 60%; margin-bottom: 16px;">
+            <ui:Label
+                text="Release Name"
+                style="width: 30%; font-size: 14px; font-weight: bold; margin-right: 8px;" />
+            <appui:TextField
+                name="releaseNameField"
+                placeholder="Enter release name"
+                style="flex-grow: 1;" />
+        </ui:VisualElement>
+
+        <!-- Row 2: Start and End Dates -->
+        <ui:VisualElement style="flex-direction: row; width: 60%; margin-bottom: 16px;">
+            <ui:VisualElement style="flex-grow: 1; margin-right: 16px;">
+                <ui:Label
+                    text="Select Date"
+                    style="font-size: 14px; font-weight: bold; margin-bottom: 4px;" />
+                <appui:DateRangePicker name="dateRangePicker" />
+            </ui:VisualElement>
+            <ui:VisualElement style="flex-grow: 1;">
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Row 3: Total Tasks and Check-in Day -->
+        <ui:VisualElement style="flex-direction: row; width: 60%; margin-bottom: 16px;">
+            <ui:VisualElement style="flex-grow: 1; margin-right: 16px;">
+                <ui:Label
+                    text="Total Tasks"
+                    style="font-size: 14px; font-weight: bold; margin-bottom: 4px;" />
+                <appui:NumberField
+                    name="totalTasksField"
+                    format="int"
+                    min="0"
+                    style="width: 100%;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="flex-grow: 1;">
+                <ui:Label
+                    text="Check-in Day"
+                    style="font-size: 14px; font-weight: bold; margin-bottom: 4px;" />
+                <appui:Dropdown
+                    name="checkInDayDropdown"
+                    choices="Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday"
+                    style="width: 100%;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Row 4: Create Button -->
+        <appui:Button
+            text="Create"
+            style="width: 200px; height: 48px; margin-top: 16px;"
+            name="createButton" />
+    </ui:VisualElement>
+</ui:UXML>

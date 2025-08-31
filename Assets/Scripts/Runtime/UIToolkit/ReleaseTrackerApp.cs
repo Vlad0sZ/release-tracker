@@ -9,11 +9,13 @@ namespace Runtime.UIToolkit
     public sealed class ReleaseTrackerApp : App
     {
         private readonly INavVisualController _navVisualController;
+        private readonly AssetProvider _assetProvider;
         private readonly NavHost _navHost;
 
-        public ReleaseTrackerApp(NavHost navHost, INavVisualController navVisualController)
+        public ReleaseTrackerApp(NavHost navHost, AssetProvider assetProvider, INavVisualController navVisualController)
         {
             _navVisualController = navVisualController;
+            _assetProvider = assetProvider;
             _navHost = navHost;
         }
 
@@ -21,18 +23,10 @@ namespace Runtime.UIToolkit
         {
             base.InitializeComponent();
 
-            _navHost.navController.SetGraph(AssetProvider.NavGraph);
+            _navHost.navController.SetGraph(_assetProvider.NavGraph);
             _navHost.visualController = _navVisualController;
 
-            var panel = new Unity.AppUI.UI.Panel
-            {
-                scale = "large"
-            };
-
-            rootVisualElement.Add(panel);
-            panel.StretchToParentSize();
-
-            panel.Add(_navHost);
+            rootVisualElement.Add(_navHost);
             _navHost.StretchToParentSize();
         }
 

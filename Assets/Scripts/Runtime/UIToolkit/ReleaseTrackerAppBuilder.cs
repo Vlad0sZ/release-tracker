@@ -1,15 +1,19 @@
-﻿using Runtime.Interfaces.Services;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Runtime.Core;
+using Runtime.Interfaces.Containers;
+using Runtime.Interfaces.Services;
 using Runtime.Services;
 using Runtime.UIToolkit.Extensions;
+using Runtime.UIToolkit.ViewModels;
 using Runtime.UIToolkit.Views;
-using Unity.AppUI.MVVM;
+using Unity.AppUI.Extended.DependencyInjection;
 using Unity.AppUI.Navigation;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Runtime.UIToolkit
 {
-    public sealed class ReleaseTrackerAppBuilder : UIToolkitAppBuilder<ReleaseTrackerApp>
+    public sealed class ReleaseTrackerAppBuilder : ExtendedAppHost<ReleaseTrackerApp>
     {
         [SerializeField] private VisualTreeAsset[] templates;
         [SerializeField] private NavGraphViewAsset navigationGraph;
@@ -20,16 +24,13 @@ namespace Runtime.UIToolkit
             Debug.Log("ReleaseTrackerAppBuilder.OnAppInitialized");
         }
 
-        protected override void OnConfiguringApp(AppBuilder builder)
+        protected override void OnConfiguringApp(IAppConfiguration appConfiguration)
         {
-            base.OnConfiguringApp(builder);
+            base.OnConfiguringApp(appConfiguration);
             Debug.Log("ReleaseTrackerAppBuilder.OnConfiguringApp");
 
 
-            AssetProvider.TemplateAssets = templates;
-            AssetProvider.NavGraph = navigationGraph;
-
-            builder.services
+            appConfiguration.Services
                 .AddIOServices()
                 .AddLogging();
 
@@ -40,12 +41,23 @@ namespace Runtime.UIToolkit
             // builder.services.AddSingleton<MainViewModel>();
             // builder.services.AddSingleton<MainPage>();
 
-            builder.services.AddSingleton<NavHost>();
-            builder.services.AddSingleton<IDestinationFactory, DestinationFactory>();
-            builder.services.AddSingleton<INavVisualController, NavigationController>();
-            builder.services.AddSingleton<ITemplateLoader, VisualTreeAssetLoader>();
+            appConfiguration.Services.AddSingleton<AssetProvider>(new AssetProvider(templates, navigationGraph));
+            appConfiguration.Services.AddSingleton<NavHost>();
+            appConfiguration.Services.AddSingleton<IDestinationFactory, DestinationFactory>();
+            appConfiguration.Services.AddSingleton<INavVisualController, NavigationController>();
+            appConfiguration.Services.AddSingleton<ITemplateLoader, VisualTreeAssetLoader>();
 
-            builder.services.AddTransient<LoadingPage>();
+            appConfiguration.Services.Register<DataContainer>()
+                .AsImplementedInterfaces<DataContainer>();
+
+            appConfiguration.Services.AddTransient<LoadingScreen>();
+            appConfiguration.Services.AddTransient<LoadingPageViewModel>();
+
+            appConfiguration.Services.AddTransient<StartScreen>();
+            appConfiguration.Services.AddTransient<StartScreenViewModel>();
+
+            appConfiguration.Services.AddTransient<CreateScreen>();
+            appConfiguration.Services.AddTransient<CreateScreenViewModel>();
         }
 
         protected override void OnAppShuttingDown(ReleaseTrackerApp app)

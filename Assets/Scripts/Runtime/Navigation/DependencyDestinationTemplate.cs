@@ -1,7 +1,8 @@
 ﻿using System;
+using Microsoft.Extensions.DependencyInjection;
 using Runtime.Interfaces.Services;
-using Unity.AppUI.MVVM;
 using Unity.AppUI.Navigation;
+using UnityApp = Unity.AppUI.MVVM;
 
 namespace Runtime.Navigation
 {
@@ -10,7 +11,8 @@ namespace Runtime.Navigation
     {
         public override INavigationScreen CreateScreen(NavHost host)
         {
-            NavigationScreen screen = null;
+            NavigationScreen screen;
+            
             var type = Type.GetType(template);
             if (type == null)
             {
@@ -23,9 +25,9 @@ namespace Runtime.Navigation
             }
 
             // TODO temporary solution as navigation does not support DI
-            else if (App.current.services is ServiceProvider serviceProvider)
+            else if (UnityApp.App.current.services != null)
             {
-                using var scope = serviceProvider.CreateScope();
+                using var scope = UnityApp.App.current.services.CreateScope();
                 var destinationFactory = scope.ServiceProvider.GetRequiredService<IDestinationFactory>();
                 screen = destinationFactory.CreateDestination(type);
             }

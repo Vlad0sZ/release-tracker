@@ -10,9 +10,15 @@ namespace Runtime.UIToolkit
     ///  TODO remove this when it will be possible to add instance in <see cref="Unity.AppUI.MVVM.IServiceCollection"/>
     /// </remarks>
     /// </summary>
-    public static class AssetProvider
+    public sealed class AssetProvider
     {
-        public static IList<VisualTreeAsset> TemplateAssets { get; set; }
-        public static NavGraphViewAsset NavGraph { get; set; }
+        public IList<VisualTreeAsset> TemplateAssets { get; set; }
+        public NavGraphViewAsset NavGraph { get; set; }
+
+        public AssetProvider(IList<VisualTreeAsset> templateAssets, NavGraphViewAsset navGraph)
+        {
+            TemplateAssets = templateAssets;
+            NavGraph = navGraph;
+        }
     }
 }

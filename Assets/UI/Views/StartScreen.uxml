@@ -1,36 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:appui="Unity.AppUI.UI"
+    xsi="http://www.w3.org/2001/XMLSchema-instance"
+    editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd"
+    editor-extension-mode="False">
 
-<ui:UXML 
-        xmlns:ui="UnityEngine.UIElements" 
-        xmlns:appui="Unity.AppUI.UI" 
-        xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" 
-        editor-extension-mode="False">
+    <ui:VisualElement class="mvvm-redux-main-content" style="flex-grow: 1; padding: 16px;">
+        <!-- Create New Button: Larger IconButton with "+" icon -->
+        <appui:ActionButton
+            icon="plus"
+            label="Create New Release"
+            size="L" tooltip="Hello"
+            style="align-self: center;"
+            name="createNewButton" />
 
+        <!-- Spacer to push ListView to bottom -->
+        <ui:VisualElement style="flex-grow: 1;" />
 
-    <appui:Panel name="root-panel">
+        <!-- ListView Header -->
+        <ui:Label
+            text="Previous Releases"
+            style="font-size: 18px; font-weight: bold; margin-bottom: 8px; align-self: center;"
+            name="listViewHeader" />
 
-        <ui:VisualElement name="root-main">
+        <!-- ListView: 60% screen width with larger margins -->
+        <ui:ListView
+            style="flex-grow: 1; max-height: 50%; width: 60%; margin-left: auto; margin-right: auto; padding: 8px;"
+            name="previousDataScroll">
+        </ui:ListView>
 
-            <!-- Верхняя кнопка -->
-            <appui:Button
-                title="Создать новый"
-                style="align-self: flex-start; margin: 8px;"
-                name="createNewButton" />
-
-            <!-- Пространство между кнопкой и списком -->
-            <ui:VisualElement style="flex-grow: 1;" />
-
-            <!-- Нижняя часть со скроллом -->
-            <ui:ScrollView style="flex-grow: 1; max-height: 50%; padding: 8px;"
-                              name="previousDataScroll">
-                <!-- Здесь будут кнопки с данными -->
-                <appui:Button title="Данные 1" />
-                <appui:Button title="Данные 2" />
-                <appui:Button title="Данные 3" />
-            </ui:ScrollView>
-
-        </ui:VisualElement>
-
-    </appui:Panel>
+        <!-- Empty ListView Text: Shown when ListView is empty -->
+        <ui:Label
+            text="No releases available. Click '+' to create a new release."
+            style="display: none; font-size: 14px; color: rgba(255, 255, 255, 0.7); text-align: center; margin-top: 8px; align-self:center"
+            name="emptyListLabel" />
+    </ui:VisualElement>
 </ui:UXML>

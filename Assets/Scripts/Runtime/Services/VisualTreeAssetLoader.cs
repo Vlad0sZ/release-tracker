@@ -15,10 +15,10 @@ namespace Runtime.Services
         private readonly Dictionary<string, VisualTreeAsset> _templates;
         private readonly ILogger<ITemplateLoader> _logger;
 
-        public VisualTreeAssetLoader(ILogFactory logFactory)
+        public VisualTreeAssetLoader(AssetProvider assetProvider, ILogger<ITemplateLoader> logger)
         {
-            _logger = logFactory.CreateLoggerOf<ITemplateLoader>();
-            _templates = AssetProvider.TemplateAssets.ToDictionary(x => x.name);
+            _templates = assetProvider.TemplateAssets.ToDictionary(x => x.name);
+            _logger = logger;
         }
 
         public VisualTreeAsset GetTemplate(string treeName)

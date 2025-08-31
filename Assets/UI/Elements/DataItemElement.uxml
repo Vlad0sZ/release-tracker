@@ -1,0 +1,14 @@
+﻿<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:appui="Unity.AppUI.UI" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+
+    <ui:VisualElement>
+        <appui:ActionGroup quiet="true">
+
+            <appui:ActionButton name="editButton" icon="pen" quiet="true" />
+
+            <appui:ActionButton name="deleteButton" icon="delete" quiet="true" />
+
+        </appui:ActionGroup>
+
+    </ui:VisualElement>
+
+</ui:UXML>

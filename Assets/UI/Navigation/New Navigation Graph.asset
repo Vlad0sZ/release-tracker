@@ -18,6 +18,67 @@ MonoBehaviour:
   m_Actions: []
   m_Label: 
   m_StartDestination: {fileID: -1471047568222928053}
+--- !u!114 &-4120906571559134949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819e9866b5cc41e7ac482ba5fe89e09b, type: 3}
+  m_Name: start_screen
+  m_EditorClassIdentifier: Unity.AppUI.Navigation::Unity.AppUI.Navigation.NavDestination
+  m_Position: {x: 796, y: -105}
+  m_Guid: 8908899edd06b234ba32a5dde49b0aae
+  m_Parent: {fileID: -6271761687539378237}
+  m_Actions:
+  - {fileID: -832243312595234613}
+  m_Label: Start screen with data
+  m_TemplateSettings:
+    rid: 2681954766432502006
+  m_Arguments: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 2681954766432502006
+      type: {class: DependencyDestinationTemplate, ns: Runtime.Navigation, asm: Assembly-CSharp}
+      data:
+        m_ScreenType: Runtime.UIToolkit.Views.StartScreen, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_ShowBottomNavBar: 0
+        m_ShowAppBar: 0
+        m_ShowBackButton: 0
+        m_ShowDrawer: 0
+        m_ShowNavigationRail: 0
+--- !u!114 &-3429700363682080803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78073c03d6154685bf631e4ad244b9b8, type: 3}
+  m_Name: splash_to_start
+  m_EditorClassIdentifier: Unity.AppUI.Navigation::Unity.AppUI.Navigation.NavAction
+  m_Position: {x: 399, y: -42}
+  m_Guid: 6b4ba259-5085-4bb4-9d0a-b09d08a33bb3
+  m_Destination: {fileID: -4120906571559134949}
+  m_Options:
+    m_PopUpToStrategy: 0
+    m_PopUpToRoute: {fileID: 0}
+    m_PopUpToInclusive: 0
+    m_EnterAnim: 0
+    m_ExitAnim: 0
+    m_PopEnterAnim: 0
+    m_PopExitAnim: 0
+    m_PopUpToSaveState: 0
+    m_RestoreState: 0
+    m_LaunchSingleTop: 1
+  m_DefaultArguments: []
 --- !u!114 &-1471047568222928053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30,25 +91,86 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819e9866b5cc41e7ac482ba5fe89e09b, type: 3}
   m_Name: splash
   m_EditorClassIdentifier: Unity.AppUI.Navigation::Unity.AppUI.Navigation.NavDestination
-  m_Position: {x: -36, y: -63}
+  m_Position: {x: -137, y: -105}
   m_Guid: b77a1837b1b623b41ac84b77de70f60e
   m_Parent: {fileID: -6271761687539378237}
-  m_Actions: []
+  m_Actions:
+  - {fileID: -3429700363682080803}
   m_Label: loading page
   m_TemplateSettings:
-    rid: 2681954746932660122
+    rid: 2681954766432501861
   m_Arguments: []
   references:
     version: 2
     RefIds:
-    - rid: 2681954746932660122
+    - rid: 2681954766432501861
       type: {class: DependencyDestinationTemplate, ns: Runtime.Navigation, asm: Assembly-CSharp}
       data:
-        m_ScreenType: Runtime.UIToolkit.Views.LoadingPage, Assembly-CSharp, Version=0.0.0.0,
+        m_ScreenType: Runtime.UIToolkit.Views.LoadingScreen, Assembly-CSharp, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_ShowBottomNavBar: 0
         m_ShowAppBar: 0
         m_ShowBackButton: 0
+        m_ShowDrawer: 0
+        m_ShowNavigationRail: 0
+--- !u!114 &-832243312595234613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78073c03d6154685bf631e4ad244b9b8, type: 3}
+  m_Name: start_to_create
+  m_EditorClassIdentifier: Unity.AppUI.Navigation::Unity.AppUI.Navigation.NavAction
+  m_Position: {x: 1421, y: -136}
+  m_Guid: 7887c0da-11f9-4719-916e-abbcd5a19875
+  m_Destination: {fileID: -547929532910334998}
+  m_Options:
+    m_PopUpToStrategy: 0
+    m_PopUpToRoute: {fileID: 0}
+    m_PopUpToInclusive: 0
+    m_EnterAnim: 3
+    m_ExitAnim: 4
+    m_PopEnterAnim: 0
+    m_PopExitAnim: 0
+    m_PopUpToSaveState: 0
+    m_RestoreState: 0
+    m_LaunchSingleTop: 0
+  m_DefaultArguments: []
+--- !u!114 &-547929532910334998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819e9866b5cc41e7ac482ba5fe89e09b, type: 3}
+  m_Name: create_screen
+  m_EditorClassIdentifier: Unity.AppUI.Navigation::Unity.AppUI.Navigation.NavDestination
+  m_Position: {x: 1874, y: -6}
+  m_Guid: 79e971106830d0945ae7ac388010a758
+  m_Parent: {fileID: -6271761687539378237}
+  m_Actions: []
+  m_Label: Create Screen
+  m_TemplateSettings:
+    rid: 2681954768577626171
+  m_Arguments: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 2681954768577626171
+      type: {class: DependencyDestinationTemplate, ns: Runtime.Navigation, asm: Assembly-CSharp}
+      data:
+        m_ScreenType: Runtime.UIToolkit.Views.CreateScreen, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_ShowBottomNavBar: 0
+        m_ShowAppBar: 0
+        m_ShowBackButton: 1
         m_ShowDrawer: 0
         m_ShowNavigationRail: 0
 --- !u!114 &11400000
@@ -66,3 +188,7 @@ MonoBehaviour:
   m_Nodes:
   - {fileID: -6271761687539378237}
   - {fileID: -1471047568222928053}
+  - {fileID: -4120906571559134949}
+  - {fileID: -3429700363682080803}
+  - {fileID: -547929532910334998}
+  - {fileID: -832243312595234613}

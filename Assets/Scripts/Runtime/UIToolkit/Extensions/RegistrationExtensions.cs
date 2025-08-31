@@ -1,9 +1,9 @@
-﻿using Runtime.Interfaces.IO;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Runtime.Interfaces.IO;
 using Runtime.Interfaces.Logging;
 using Runtime.IO;
 using Runtime.Logging;
 using Runtime.Logging.Unity;
-using Unity.AppUI.MVVM;
 
 namespace Runtime.UIToolkit.Extensions
 {
