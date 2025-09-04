@@ -431,22 +431,6 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
-    "jp.hadashikick.vcontainer": {
-      "version": "1.17.0",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://package.openupm.com"
-    },
-    "me.qiankanglai.loopscrollrect": {
-      "version": "1.1.4",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.ugui": "1.0.0"
-      },
-      "url": "https://package.openupm.com"
-    },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
       "depth": 0,

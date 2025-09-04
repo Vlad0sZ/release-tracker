@@ -5,10 +5,13 @@ using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
+using ObservableCollections;
+using R3;
 using Runtime.Interfaces.Containers;
 using Runtime.Interfaces.IO;
 using Runtime.Interfaces.Loaders;
 using Runtime.Interfaces.Logging;
+using Runtime.Models;
 
 namespace Runtime.Core
 {
@@ -19,7 +22,7 @@ namespace Runtime.Core
     /// </remarks>
     /// </summary>
     [UsedImplicitly]
-    public sealed class DataContainer : IDataContainer, IInitializeLoader
+    public sealed class DataContainer : IDataContainer, IInitializeLoader, IDisposable
     {
         /// <summary>
         /// Number of Parallel operation of loading.
@@ -30,11 +33,11 @@ namespace Runtime.Core
         private readonly IDirectoryHelper _directoryHelper;
         private readonly IFileHelper _fileHelper;
         private readonly ILogger<DataContainer> _logger;
-
         private readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(ParallelTasks);
-        private readonly List<DataClass> _dataClassList = new List<DataClass>(128);
+        private readonly CancellationTokenSource _cts = new();
 
-        public IList<DataClass> Data => _dataClassList;
+        public IList<ReleaseInfo> Data { get; set; }
+
 
         public DataContainer(IPathHelper pathHelper, IDirectoryHelper directoryHelper, IFileHelper fileHelper,
             ILogger<DataContainer> logger)
@@ -55,15 +58,27 @@ namespace Runtime.Core
                 .OrderByDescending(f => f.LastWriteTime)
                 .Select(f => f.FullName)
                 .ToList();
-            
+
             _logger.LogInfo($"find {files.Count} files to load.");
 
             var sw = Stopwatch.StartNew();
 
             var tasks = files.Select(x => LoadFromFile(x, cancellationToken));
             var results = await UniTask.WhenAll(tasks);
-            _dataClassList.Clear();
-            _dataClassList.AddRange(results.Where(x => x != null));
+
+
+            var list = new ObservableList<ReleaseInfo>(results);
+            var token = _cts.Token;
+
+            list.ObserveAdd()
+                .TakeUntil(token)
+                .Subscribe(d => _ = SaveItem(d.Value));
+
+            list.ObserveRemove()
+                .TakeUntil(token)
+                .Subscribe(d => _ = DeleteItem(d.Value));
+
+            Data = list;
 
             await UniTask.Yield();
             sw.Stop();
@@ -71,12 +86,12 @@ namespace Runtime.Core
         }
 
 
-        private async UniTask<DataClass> LoadFromFile(string filePath, CancellationToken cancellationToken)
+        private async UniTask<ReleaseInfo> LoadFromFile(string filePath, CancellationToken cancellationToken)
         {
             try
             {
                 await _semaphoreSlim.WaitAsync(cancellationToken);
-                var data = await _fileHelper.LoadFromFileAsync<DataClass>(filePath, cancellationToken);
+                var data = await _fileHelper.LoadFromFileAsync<ReleaseInfo>(filePath, cancellationToken);
                 return data ?? throw new NullReferenceException("Data was null when parsing from json");
             }
             catch (Exception ex)
@@ -89,10 +104,29 @@ namespace Runtime.Core
                 _semaphoreSlim.Release();
             }
         }
-    }
 
-    public class DataClass
-    {
-        public int SomeId { get; set; }
+        private async UniTask SaveItem(ReleaseInfo item)
+        {
+            var filePath = _pathHelper.GetFilePathOf(item);
+            _logger.LogInfo($"Create new file {filePath}");
+            await _fileHelper.SaveToFileAsync(filePath, item, cancellationToken: default);
+        }
+
+        private async UniTask DeleteItem(ReleaseInfo item)
+        {
+            var filePath = _pathHelper.GetFilePathOf(item);
+            _logger.LogInfo($"Delete file at {filePath}");
+            await _fileHelper.RemoveFile(filePath, default);
+            await _fileHelper.RemoveFile(System.IO.Path.ChangeExtension(filePath, "dt"), default);
+        }
+
+        public void Dispose()
+        {
+            _cts.Cancel();
+            _cts.Dispose();
+            _semaphoreSlim?.Dispose();
+
+            UnityEngine.Debug.Log("Data container dispose");
+        }
     }
 }

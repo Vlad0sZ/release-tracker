@@ -26,5 +26,13 @@ namespace Runtime.Interfaces.IO
         /// <typeparam name="T">Type of class context.</typeparam>
         /// <returns><see cref="UniTask"/> of operation.</returns>
         UniTask SaveToFileAsync<T>(string path, T context, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Async remove file from filesystem.
+        /// </summary>
+        /// <param name="path">Path to file.</param>
+        /// <param name="cancellationToken">Cancellation token for async-operation.</param>
+        /// <returns><see cref="UniTask"/> of operation.</returns>
+        UniTask RemoveFile(string path, CancellationToken cancellationToken);
     }
 }

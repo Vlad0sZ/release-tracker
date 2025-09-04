@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
@@ -42,6 +43,20 @@ namespace Runtime.IO
         {
             var data = JsonConvert.SerializeObject(context);
             await File.WriteAllTextAsync(path, data, cancellationToken);
+        }
+
+        public UniTask RemoveFile(string path, CancellationToken cancellationToken)
+        {
+            try
+            {
+                File.Delete(path);
+            }
+            catch (Exception ex)
+            {
+                // ignored
+            }
+
+            return UniTask.CompletedTask;
         }
     }
 }

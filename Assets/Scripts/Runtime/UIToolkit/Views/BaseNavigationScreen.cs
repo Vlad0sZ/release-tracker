@@ -1,6 +1,7 @@
 ﻿using Runtime.Interfaces.Services;
 using Runtime.Interfaces.UI;
 using Unity.AppUI.Navigation;
+using Unity.AppUI.UI;
 using UnityEngine.UIElements;
 
 namespace Runtime.UIToolkit.Views
@@ -22,8 +23,10 @@ namespace Runtime.UIToolkit.Views
         public virtual void ApplyTemplate(VisualTreeAsset template)
         {
             var root = template.Instantiate();
-            root.StretchToParentSize();
-            hierarchy.Add(root);
+            var content = root.contentContainer.GetChildren<VisualElement>(false);
+
+            foreach (var element in content)
+                Add(element);
 
             InitializeComponent();
         }

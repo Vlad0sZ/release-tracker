@@ -1,38 +1,9 @@
-<ui:UXML
-    xmlns:ui="UnityEngine.UIElements"
-    xmlns:appui="Unity.AppUI.UI"
-    xsi="http://www.w3.org/2001/XMLSchema-instance"
-    editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd"
-    editor-extension-mode="False">
-
-    <ui:VisualElement class="mvvm-redux-main-content" style="flex-grow: 1; padding: 16px;">
-        <!-- Create New Button: Larger IconButton with "+" icon -->
-        <appui:ActionButton
-            icon="plus"
-            label="Create New Release"
-            size="L" tooltip="Hello"
-            style="align-self: center;"
-            name="createNewButton" />
-
-        <!-- Spacer to push ListView to bottom -->
-        <ui:VisualElement style="flex-grow: 1;" />
-
-        <!-- ListView Header -->
-        <ui:Label
-            text="Previous Releases"
-            style="font-size: 18px; font-weight: bold; margin-bottom: 8px; align-self: center;"
-            name="listViewHeader" />
-
-        <!-- ListView: 60% screen width with larger margins -->
-        <ui:ListView
-            style="flex-grow: 1; max-height: 50%; width: 60%; margin-left: auto; margin-right: auto; padding: 8px;"
-            name="previousDataScroll">
-        </ui:ListView>
-
-        <!-- Empty ListView Text: Shown when ListView is empty -->
-        <ui:Label
-            text="No releases available. Click '+' to create a new release."
-            style="display: none; font-size: 14px; color: rgba(255, 255, 255, 0.7); text-align: center; margin-top: 8px; align-self:center"
-            name="emptyListLabel" />
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:appui="Unity.AppUI.UI" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="VisualElement" class="main-root" style="margin-top: 16px; align-content: center; flex-direction: column; flex-basis: auto; flex-wrap: nowrap; align-items: flex-end;">
+        <appui:ActionButton icon="plus" label="Create New Release" size="L" tooltip="Go to create release" name="createNewButton" style="align-self: center; flex-grow: 1;" />
+        <ui:VisualElement style="flex-grow: 1; margin-bottom: 88px;" />
+        <ui:Label text="Previous Releases" name="listViewHeader" style="font-size: 18px; font-weight: bold; margin-bottom: 8px; align-self: center;" />
+        <ui:ListView name="previousDataScroll" style="width: 60%; margin-left: auto; margin-right: auto; padding: 8px; height: 412px; max-height: none; display: none;" />
+        <ui:Label text="No releases available. Click &apos;+&apos; to create a new release." name="emptyListLabel" style="display: flex; font-size: 14px; color: rgba(255, 255, 255, 0.7); text-align: center; margin-top: 8px; align-self: center;" />
     </ui:VisualElement>
 </ui:UXML>

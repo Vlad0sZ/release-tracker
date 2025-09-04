@@ -48,7 +48,7 @@ MonoBehaviour:
         m_ScreenType: Runtime.UIToolkit.Views.StartScreen, Assembly-CSharp, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_ShowBottomNavBar: 0
-        m_ShowAppBar: 0
+        m_ShowAppBar: 1
         m_ShowBackButton: 0
         m_ShowDrawer: 0
         m_ShowNavigationRail: 0
@@ -68,12 +68,12 @@ MonoBehaviour:
   m_Guid: 6b4ba259-5085-4bb4-9d0a-b09d08a33bb3
   m_Destination: {fileID: -4120906571559134949}
   m_Options:
-    m_PopUpToStrategy: 0
-    m_PopUpToRoute: {fileID: 0}
-    m_PopUpToInclusive: 0
-    m_EnterAnim: 0
+    m_PopUpToStrategy: 2
+    m_PopUpToRoute: {fileID: -1471047568222928053}
+    m_PopUpToInclusive: 1
+    m_EnterAnim: 3
     m_ExitAnim: 0
-    m_PopEnterAnim: 0
+    m_PopEnterAnim: 3
     m_PopExitAnim: 0
     m_PopUpToSaveState: 0
     m_RestoreState: 0
@@ -169,7 +169,7 @@ MonoBehaviour:
         m_ScreenType: Runtime.UIToolkit.Views.CreateScreen, Assembly-CSharp, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_ShowBottomNavBar: 0
-        m_ShowAppBar: 0
+        m_ShowAppBar: 1
         m_ShowBackButton: 1
         m_ShowDrawer: 0
         m_ShowNavigationRail: 0

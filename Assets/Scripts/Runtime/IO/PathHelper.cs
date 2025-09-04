@@ -21,5 +21,13 @@ namespace Runtime.IO
 
             return dataPath;
         }
+
+        public string GetFilePathOf<T>(T data) where T : IPathable
+        {
+            var directory = GetDataPath();
+            var fileName = $"{data.FileName}.{data.Extension}";
+
+            return Path.Combine(directory, fileName);
+        }
     }
 }

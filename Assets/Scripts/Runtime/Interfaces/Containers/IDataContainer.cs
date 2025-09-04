@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Runtime.Core;
+using Runtime.Models;
 
 namespace Runtime.Interfaces.Containers
 {
     public interface IDataContainer
     {
-        public IList<DataClass> Data { get; }
+        public IList<ReleaseInfo> Data { get; }
     }
 }
