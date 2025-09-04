@@ -25,11 +25,18 @@ namespace Runtime.Models
         [JsonProperty("actual")]
         public int Fact { get; set; }
 
-
         /// <summary>
         /// Percentage of deviation of actual from plan.
         /// </summary>
-        [JsonIgnore]
-        public float DeviationPercent => Plan == 0 ? 0 : (Fact - Plan) / (float) Plan * 100;
+        public float GetDeviationPercent(int totalPlannedTasks)
+        {
+            if (totalPlannedTasks == 0)
+                return 0;
+
+
+            var planPercentage = (1f * Plan / totalPlannedTasks) * 100f;
+            var factPercentage = (1f * Fact / totalPlannedTasks) * 100f;
+            return factPercentage - planPercentage;
+        }
     }
 }

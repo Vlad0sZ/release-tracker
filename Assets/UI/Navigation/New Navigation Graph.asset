@@ -1,5 +1,32 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7517444411933802586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78073c03d6154685bf631e4ad244b9b8, type: 3}
+  m_Name: create_to_table
+  m_EditorClassIdentifier: Unity.AppUI.Navigation::Unity.AppUI.Navigation.NavAction
+  m_Position: {x: 2386, y: -134}
+  m_Guid: 7cb546ce-72e8-4b07-b012-bdecde0f00a7
+  m_Destination: {fileID: 5739131698117187501}
+  m_Options:
+    m_PopUpToStrategy: 1
+    m_PopUpToRoute: {fileID: -547929532910334998}
+    m_PopUpToInclusive: 1
+    m_EnterAnim: 3
+    m_ExitAnim: 4
+    m_PopEnterAnim: 0
+    m_PopExitAnim: 0
+    m_PopUpToSaveState: 0
+    m_RestoreState: 0
+    m_LaunchSingleTop: 0
+  m_DefaultArguments: []
 --- !u!114 &-6271761687539378237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30,11 +57,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819e9866b5cc41e7ac482ba5fe89e09b, type: 3}
   m_Name: start_screen
   m_EditorClassIdentifier: Unity.AppUI.Navigation::Unity.AppUI.Navigation.NavDestination
-  m_Position: {x: 796, y: -105}
+  m_Position: {x: 817, y: -177}
   m_Guid: 8908899edd06b234ba32a5dde49b0aae
   m_Parent: {fileID: -6271761687539378237}
   m_Actions:
   - {fileID: -832243312595234613}
+  - {fileID: 4311268787349623583}
   m_Label: Start screen with data
   m_TemplateSettings:
     rid: 2681954766432502006
@@ -48,7 +76,7 @@ MonoBehaviour:
         m_ScreenType: Runtime.UIToolkit.Views.StartScreen, Assembly-CSharp, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_ShowBottomNavBar: 0
-        m_ShowAppBar: 1
+        m_ShowAppBar: 0
         m_ShowBackButton: 0
         m_ShowDrawer: 0
         m_ShowNavigationRail: 0
@@ -125,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78073c03d6154685bf631e4ad244b9b8, type: 3}
   m_Name: start_to_create
   m_EditorClassIdentifier: Unity.AppUI.Navigation::Unity.AppUI.Navigation.NavAction
-  m_Position: {x: 1421, y: -136}
+  m_Position: {x: 1346, y: -540}
   m_Guid: 7887c0da-11f9-4719-916e-abbcd5a19875
   m_Destination: {fileID: -547929532910334998}
   m_Options:
@@ -152,10 +180,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819e9866b5cc41e7ac482ba5fe89e09b, type: 3}
   m_Name: create_screen
   m_EditorClassIdentifier: Unity.AppUI.Navigation::Unity.AppUI.Navigation.NavDestination
-  m_Position: {x: 1874, y: -6}
+  m_Position: {x: 1816, y: -348}
   m_Guid: 79e971106830d0945ae7ac388010a758
   m_Parent: {fileID: -6271761687539378237}
-  m_Actions: []
+  m_Actions:
+  - {fileID: -7517444411933802586}
   m_Label: Create Screen
   m_TemplateSettings:
     rid: 2681954768577626171
@@ -192,3 +221,66 @@ MonoBehaviour:
   - {fileID: -3429700363682080803}
   - {fileID: -547929532910334998}
   - {fileID: -832243312595234613}
+  - {fileID: 5739131698117187501}
+  - {fileID: -7517444411933802586}
+  - {fileID: 4311268787349623583}
+--- !u!114 &4311268787349623583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78073c03d6154685bf631e4ad244b9b8, type: 3}
+  m_Name: start_to_table
+  m_EditorClassIdentifier: Unity.AppUI.Navigation::Unity.AppUI.Navigation.NavAction
+  m_Position: {x: 2101, y: 596}
+  m_Guid: 9b0a2cd0-0f27-405b-93c6-9105135e0b07
+  m_Destination: {fileID: 5739131698117187501}
+  m_Options:
+    m_PopUpToStrategy: 0
+    m_PopUpToRoute: {fileID: 0}
+    m_PopUpToInclusive: 0
+    m_EnterAnim: 3
+    m_ExitAnim: 4
+    m_PopEnterAnim: 0
+    m_PopExitAnim: 0
+    m_PopUpToSaveState: 0
+    m_RestoreState: 0
+    m_LaunchSingleTop: 0
+  m_DefaultArguments: []
+--- !u!114 &5739131698117187501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819e9866b5cc41e7ac482ba5fe89e09b, type: 3}
+  m_Name: table_screen
+  m_EditorClassIdentifier: Unity.AppUI.Navigation::Unity.AppUI.Navigation.NavDestination
+  m_Position: {x: 2945, y: 147}
+  m_Guid: f9d7e8bece0899c44815e168c8a25059
+  m_Parent: {fileID: -6271761687539378237}
+  m_Actions: []
+  m_Label: Table screen with grid view
+  m_TemplateSettings:
+    rid: 6551168549983355211
+  m_Arguments: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 6551168549983355211
+      type: {class: DependencyDestinationTemplate, ns: Runtime.Navigation, asm: Assembly-CSharp}
+      data:
+        m_ScreenType: Runtime.UIToolkit.Views.TableScreen, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_ShowBottomNavBar: 0
+        m_ShowAppBar: 1
+        m_ShowBackButton: 1
+        m_ShowDrawer: 0
+        m_ShowNavigationRail: 0

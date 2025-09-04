@@ -1,4 +1,6 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:appui="Unity.AppUI.UI" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:appui="Unity.AppUI.UI" xsi="http://www.w3.org/2001/XMLSchema-instance"
+         editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd"
+         editor-extension-mode="False">
     <ui:VisualElement class="root-main" style="height: 100%; width: 60%; align-self: center; align-content: stretch;">
         <appui:InputLabel direction="Horizontal" label="Release Name" required="true" help-variant="Default">
             <appui:TextField name="releaseNameField" placeholder="Enter release name" size="M" max-length="50" />
@@ -8,7 +10,8 @@
             <appui:DateRangeField name="dateRangePicker" />
         </appui:InputLabel>
         <ui:VisualElement style="flex-grow: 1;" />
-        <ui:VisualElement name="VisualElement" style="flex-direction: row; width: auto; margin-bottom: 16px; align-items: auto; justify-content: space-between; align-content: stretch; align-self: stretch;">
+        <ui:VisualElement name="VisualElement"
+                          style="flex-direction: row; width: auto; margin-bottom: 16px; align-items: auto; justify-content: space-between; align-content: stretch; align-self: stretch;">
             <appui:InputLabel direction="Vertical" label="Total Tasks" required="true" help-variant="Default">
                 <appui:IntField name="totalTasksField" min="0" size="M" style="width: 100%;" />
             </appui:InputLabel>
@@ -17,6 +20,7 @@
             </appui:InputLabel>
         </ui:VisualElement>
         <ui:VisualElement style="flex-grow: 2;" />
-        <appui:Button title="Create" name="createButton" style="width: 200px; height: 48px; self-align: right; align-self: flex-end;" />
+        <appui:Button title="Create" name="createButton"
+                      style="width: 200px; height: 48px; self-align: right; align-self: flex-end;" />
     </ui:VisualElement>
 </ui:UXML>

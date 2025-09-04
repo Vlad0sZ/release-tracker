@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
-using Cysharp.Threading.Tasks;
+using System.Linq;
 using JetBrains.Annotations;
-using Runtime.Commands;
 using Runtime.Interfaces.Containers;
 using Runtime.Interfaces.Logging;
+using Runtime.Interfaces.Services;
 using Runtime.Interfaces.UI;
 using Runtime.Models;
 using Unity.AppUI.Core;
 using Unity.AppUI.MVVM;
 using Unity.AppUI.Navigation;
-using Unity.AppUI.UI;
+using Unity.AppUI.Navigation.Generated;
 using Unity.Properties;
 
 namespace Runtime.UIToolkit.ViewModels
@@ -20,9 +19,10 @@ namespace Runtime.UIToolkit.ViewModels
     [UsedImplicitly]
     public partial class CreateScreenViewModel : IViewModel
     {
-        private readonly ILogger<CreateScreenViewModel> _logger;
+        private readonly IReleaseGenerator _releaseGenerator;
         private readonly IDataContainer _dataContainer;
         private readonly NavHost _navHost;
+        private readonly ILogger<CreateScreenViewModel> _logger;
 
         [ObservableProperty] private DateRange _dateRange;
 
@@ -39,11 +39,12 @@ namespace Runtime.UIToolkit.ViewModels
         [CreateProperty(ReadOnly = true)] public RelayCommand CreateCommand { get; }
 
         public CreateScreenViewModel(NavHost navHost, IDataContainer dataContainer,
-            ILogger<CreateScreenViewModel> logger)
+            ILogger<CreateScreenViewModel> logger, IReleaseGenerator releaseGenerator)
         {
             _navHost = navHost;
             _dataContainer = dataContainer;
             _logger = logger;
+            _releaseGenerator = releaseGenerator;
 
             var now = DateTime.Now;
             _dateRange = new DateRange(
@@ -60,6 +61,17 @@ namespace Runtime.UIToolkit.ViewModels
 
         private void CreateRelease()
         {
+            // TODO validate fields
+
+            DateTime startDate = this.DateRange.start;
+            DateTime endDate = this.DateRange.end;
+            var totalTasks = this.TasksNumber;
+            var checkDay = this.SelectedDay;
+
+            // TODO validate rows
+            var rows = _releaseGenerator.Generate(startDate, endDate, totalTasks, checkDay);
+
+
             var release = new ReleaseInfo()
             {
                 TotalTasks = this.TasksNumber,
@@ -67,13 +79,16 @@ namespace Runtime.UIToolkit.ViewModels
                 Name = this.ReleaseName,
                 StartDate = ((DateTime) this.DateRange.start).ToString("yyyy-MM-dd"),
                 EndDate = ((DateTime) this.DateRange.end).ToString("yyyy-MM-dd"),
+                Table = rows.ToArray(),
             };
 
             _logger.LogInfo($"Create new release {release}");
-            _dataContainer.Data.Add(release);
+            _dataContainer.Data.Insert(0, release);
             Status = release.Name;
 
-            _navHost.navController.PopBackStack();
+
+            _navHost.navController.Navigate(Actions.create_to_table,
+                new Argument(Arguments.releaseId, release.Id));
         }
     }
 }

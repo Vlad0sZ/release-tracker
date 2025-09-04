@@ -1,21 +1,18 @@
-﻿using System;
-using Runtime.Models;
-using Runtime.UIToolkit.Extensions;
+﻿using Runtime.UIToolkit.Extensions;
 using Runtime.UIToolkit.ViewModels;
 using Unity.AppUI.Core;
 using Unity.AppUI.UI;
 using Unity.Properties;
 using UnityEngine.UIElements;
-using TextField = Unity.AppUI.UI.TextField;
 
 namespace Runtime.UIToolkit.Views
 {
     public class CreateScreen : BaseNavigationScreen<CreateScreenViewModel>
     {
         private Unity.AppUI.UI.TextField _releaseNameField;
-        private Unity.AppUI.UI.DateRangeField _dateRangeField;
-        private Unity.AppUI.UI.IntField _taskIntField;
-        private Unity.AppUI.UI.Dropdown _daysDropdown;
+        private DateRangeField _dateRangeField;
+        private IntField _taskIntField;
+        private Dropdown _daysDropdown;
         private Unity.AppUI.UI.Button _createButton;
 
         public CreateScreen(CreateScreenViewModel bindingContext) : base(bindingContext)
@@ -27,7 +24,7 @@ namespace Runtime.UIToolkit.Views
         {
             base.InitializeComponent();
 
-            _releaseNameField = this.Q<TextField>("releaseNameField");
+            _releaseNameField = this.Q<Unity.AppUI.UI.TextField>("releaseNameField");
             _dateRangeField = this.Q<DateRangeField>("dateRangePicker");
             _taskIntField = this.Q<IntField>("totalTasksField");
             _daysDropdown = this.Q<Dropdown>("checkInDayDropdown");
@@ -48,12 +45,20 @@ namespace Runtime.UIToolkit.Views
                 PropertyPath.FromName(nameof(CreateScreenViewModel.DateRange)));
 
 
+            _dateRangeField.RegisterValueChangedCallback(evt =>
+            {
+                UnityEngine.Debug.Log($"Change Daterange from {evt.previousValue} to {evt.newValue}");
+                BindingContext.DateRange = evt.newValue;
+            });
+
             _daysDropdown.bindItem = (item, index) => item.label = BindingContext.DaysOptions[index];
             _daysDropdown.sourceItems = BindingContext.DaysOptions;
 
             _createButton.clicked += BindingContext.CreateCommand.Execute;
-            BindingContext.PropertyChanged += (obj, evt) =>
+            BindingContext.PropertyChanged += (_, evt) =>
             {
+                UnityEngine.Debug.Log($"Change property {evt.PropertyName}");
+
                 if (evt.PropertyName == nameof(BindingContext.Status))
                     OnNotification(BindingContext.Status);
             };
@@ -61,7 +66,7 @@ namespace Runtime.UIToolkit.Views
 
         private void OnNotification(string release)
         {
-            var toast = Toast.Build(this, $"Release created: {release}", NotificationDuration.Short)
+            var toast = Toast.Build(this, $"Release created: {release}", NotificationDuration.Long)
                 .SetStyle(NotificationStyle.Informative)
                 .SetPosition(PopupNotificationPlacement.BottomRight)
                 .SetAnimationMode(AnimationMode.Slide)

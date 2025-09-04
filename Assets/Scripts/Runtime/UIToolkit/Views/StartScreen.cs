@@ -10,7 +10,9 @@ using Runtime.Types;
 using Runtime.UIToolkit.Elements;
 using Runtime.UIToolkit.Extensions;
 using Runtime.UIToolkit.ViewModels;
+using Unity.AppUI.Core;
 using Unity.AppUI.Navigation;
+using Unity.AppUI.UI;
 using UnityEngine.UIElements;
 using UIActionButton = Unity.AppUI.UI.ActionButton;
 
@@ -48,8 +50,11 @@ namespace Runtime.UIToolkit.Views
                 RebuildListView();
         }
 
-        public override void OnEnter(NavController controller, NavDestination destination, Argument[] args) =>
+        public override void OnEnter(NavController controller, NavDestination destination, Argument[] args)
+        {
+            base.OnEnter(controller, destination, args);
             RebuildListView();
+        }
 
         private void RebuildListView()
         {
@@ -65,6 +70,7 @@ namespace Runtime.UIToolkit.Views
         {
             _listView.virtualizationMethod = CollectionVirtualizationMethod.DynamicHeight;
             _listView.selectionType = SelectionType.None;
+            _listView.fixedItemHeight = 48;
 
             _listView.makeItem = () => new DataItemElement(_dataItemTemplate);
 
@@ -92,9 +98,20 @@ namespace Runtime.UIToolkit.Views
                 BindingContext.OpenCommand.Execute(data);
             else if (requestData.Type == RequestType.Delete)
             {
-                // TODO show modal window
                 BindingContext.DeleteCommand.Execute(data);
+                ShowDeleteToast(data);
             }
+        }
+
+        private void ShowDeleteToast(ReleaseInfo data)
+        {
+            var toast = Toast.Build(this, $"Release {data.Name} was deleted.", NotificationDuration.Long)
+                .SetStyle(NotificationStyle.Negative)
+                .SetIcon("warning")
+                .SetPosition(PopupNotificationPlacement.BottomRight)
+                .AddAction(-1, "Cancel", t => { BindingContext.CancelDeleteCommand.Execute(data); }, true);
+
+            toast.Show();
         }
     }
 }

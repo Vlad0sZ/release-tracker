@@ -4,7 +4,6 @@ using Runtime.Interfaces.Logging;
 using Runtime.Interfaces.UI;
 using Runtime.Models;
 using Unity.AppUI.MVVM;
-using Unity.Properties;
 
 namespace Runtime.UIToolkit.ViewModels
 {
@@ -33,6 +32,11 @@ namespace Runtime.UIToolkit.ViewModels
             var release = _dataContainer.Data.SingleOrDefault(x => x.Id == releaseId);
             if (release != null)
                 Release = release;
+        }
+
+        private void Save(ReleaseDataRow row)
+        {
+            
         }
     }
 }

@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:appui="Unity.AppUI.UI" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; flex-direction: row; margin-bottom: 4px;">
+        <appui:TextField name="dateField" is-read-only="true" style="margin-right: 4px; width: 120px;" />
+        <appui:TextField name="planField" is-read-only="true" style="margin-right: 4px; width: 80px;" />
+        <appui:IntField name="numberField" invalid="false" style="margin-right: 4px; width: 80px;" />
+        <appui:TextField name="percentageField" is-read-only="true" style="width: 80px;" />
+    </ui:VisualElement>
+</ui:UXML>

@@ -38,7 +38,6 @@ namespace Runtime.Core
 
         public IList<ReleaseInfo> Data { get; set; }
 
-
         public DataContainer(IPathHelper pathHelper, IDirectoryHelper directoryHelper, IFileHelper fileHelper,
             ILogger<DataContainer> logger)
         {
@@ -50,6 +49,10 @@ namespace Runtime.Core
 
         public async UniTask Initialize(CancellationToken cancellationToken) =>
             await InitializeParallel(cancellationToken);
+
+        public void Update(ReleaseInfo releaseInfo) =>
+            _ = SaveItem(releaseInfo);
+
 
         private async UniTask InitializeParallel(CancellationToken cancellationToken)
         {
@@ -84,7 +87,6 @@ namespace Runtime.Core
             sw.Stop();
             _logger.LogInfo($"All loaded in {sw.ElapsedMilliseconds} ms.");
         }
-
 
         private async UniTask<ReleaseInfo> LoadFromFile(string filePath, CancellationToken cancellationToken)
         {

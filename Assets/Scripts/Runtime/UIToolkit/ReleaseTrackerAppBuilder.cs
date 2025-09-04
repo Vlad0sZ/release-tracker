@@ -27,19 +27,11 @@ namespace Runtime.UIToolkit
         protected override void OnConfiguringApp(IAppConfiguration appConfiguration)
         {
             base.OnConfiguringApp(appConfiguration);
-            Debug.Log("ReleaseTrackerAppBuilder.OnConfiguringApp");
-
 
             appConfiguration.Services
                 .AddIOServices()
                 .AddLogging();
 
-
-            // Add services here
-
-            // Add ViewModels and Views as services
-            // builder.services.AddSingleton<MainViewModel>();
-            // builder.services.AddSingleton<MainPage>();
 
             appConfiguration.Services.AddSingleton<AssetProvider>(new AssetProvider(templates, navigationGraph));
             appConfiguration.Services.AddSingleton<NavHost>();
@@ -50,6 +42,8 @@ namespace Runtime.UIToolkit
             appConfiguration.Services.Register<DataContainer>()
                 .AsImplementedInterfaces<DataContainer>();
 
+            appConfiguration.Services.AddScoped<IReleaseGenerator, ReleaseGenerator>();
+
             appConfiguration.Services.AddTransient<LoadingScreen>();
             appConfiguration.Services.AddTransient<LoadingPageViewModel>();
 
@@ -58,6 +52,9 @@ namespace Runtime.UIToolkit
 
             appConfiguration.Services.AddTransient<CreateScreen>();
             appConfiguration.Services.AddTransient<CreateScreenViewModel>();
+
+            appConfiguration.Services.AddTransient<TableScreen>();
+            appConfiguration.Services.AddTransient<TableScreenViewModel>();
         }
 
         protected override void OnAppShuttingDown(ReleaseTrackerApp app)

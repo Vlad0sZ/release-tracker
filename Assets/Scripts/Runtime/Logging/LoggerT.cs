@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Runtime.Interfaces.Logging;
 
 namespace Runtime.Logging
@@ -16,13 +17,14 @@ namespace Runtime.Logging
         /// Initializes a new instance of the Logger class using a provided log factory.
         /// </summary>
         /// <param name="logFactory">The factory used to create the inner ILogger instance.</param>
-        public Logger(ILogFactory logFactory) => 
+        public Logger(ILogFactory logFactory) =>
             _innerLogger = logFactory.CreateLogger<T>();
 
         /// <summary>
         /// Logs an informational message to the underlying logger.
         /// </summary>
         /// <param name="message">The message to log.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void LogInfo(string message) =>
             _innerLogger.LogInfo(message);
 
@@ -30,6 +32,7 @@ namespace Runtime.Logging
         /// Logs a warning message to the underlying logger.
         /// </summary>
         /// <param name="message">The warning message to log.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void LogWarning(string message) =>
             _innerLogger.LogWarning(message);
 
@@ -37,6 +40,7 @@ namespace Runtime.Logging
         /// Logs an error message to the underlying logger.
         /// </summary>
         /// <param name="message">The error message to log.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void LogError(string message) =>
             _innerLogger.LogError(message);
 
@@ -45,6 +49,7 @@ namespace Runtime.Logging
         /// </summary>
         /// <param name="exception">The exception to log.</param>
         /// <param name="message">An optional message providing context for the exception.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void LogException(Exception exception, string message = null) =>
             _innerLogger.LogException(exception, message);
     }

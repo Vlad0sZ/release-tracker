@@ -15,7 +15,6 @@ namespace Runtime.Services
 
         public void SetupAppBar(AppBar appBar, NavDestination destination, NavController navController)
         {
-            // appBar.title = stringю destination.label;
             appBar.stretch = true;
             appBar.expandedHeight = 64;
         }
