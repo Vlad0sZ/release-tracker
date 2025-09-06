@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Runtime.Models;
 
 namespace Runtime.Interfaces.Containers
@@ -17,6 +19,7 @@ namespace Runtime.Interfaces.Containers
         /// Save <see cref="ReleaseInfo"/> to state.
         /// </summary>
         /// <param name="releaseInfo">Exists in Data ReleaseInfo.</param>
-        public void Update(ReleaseInfo releaseInfo);
+        /// <param name="cancellationToken">Token for cancellation.</param>
+        public UniTask Update(ReleaseInfo releaseInfo, CancellationToken cancellationToken);
     }
 }

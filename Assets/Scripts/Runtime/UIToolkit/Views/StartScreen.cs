@@ -37,7 +37,8 @@ namespace Runtime.UIToolkit.Views
             _listView = this.Q<ListView>("previousDataScroll");
             _emptyLabel = this.Q<Label>("emptyListLabel");
             _createButton = this.Q<UIActionButton>("createNewButton");
-            _createButton.clicked += BindingContext.CreateCommand.Execute;
+            _createButton.clickable.command = BindingContext.CreateCommand;
+            
             BindingContext.PropertyChanged += OnPropertyChanged;
             InitializeListView();
 

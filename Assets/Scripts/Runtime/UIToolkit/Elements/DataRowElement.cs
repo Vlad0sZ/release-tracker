@@ -3,6 +3,7 @@ using System.Text;
 using R3;
 using Runtime.Interfaces.UI;
 using Runtime.Models;
+using Unity.AppUI.Core;
 using Unity.AppUI.UI;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -30,6 +31,20 @@ namespace Runtime.UIToolkit.Elements
             set => _numberField.Q<UnityEngine.UIElements.TextField>(IntField.inputUssClassName).isReadOnly = value;
         }
 
+        public Optional<int> MinValue
+        {
+            get => _numberField.lowValue;
+
+            set => _numberField.lowValue = value;
+        }
+
+        public Optional<int> MaxValue
+        {
+            get => _numberField.highValue;
+
+            set => _numberField.highValue = value;
+        }
+
         private int TotalTasks => _releaseInfo?.TotalTasks ?? 0;
 
         public DataRowElement(VisualTreeAsset template)
@@ -43,15 +58,19 @@ namespace Runtime.UIToolkit.Elements
             _numberField.RegisterValueChangedCallback(OnChangedValue);
         }
 
-        public void Bind(ReleaseInfo data) =>
+        public void Bind(ReleaseInfo data)
+        {
             _releaseInfo = data;
+            _numberField.lowValue = 0;
+            _numberField.highValue = TotalTasks;
+        }
 
         public void Bind(ReleaseDataRow data)
         {
             _currentRow = data;
-            _dateField.value = data.Date;
+            _dateField.value = DateTime.Parse(data.Date).ToString("d");
             _planField.value = data.Plan.ToString();
-            _numberField.value = data.Fact;
+            _numberField.SetValueWithoutNotify(data.Fact);
             UpdatePercentage();
         }
 

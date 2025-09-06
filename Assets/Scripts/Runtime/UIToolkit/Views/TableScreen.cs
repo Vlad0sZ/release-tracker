@@ -11,19 +11,18 @@ using Unity.AppUI.Navigation;
 using Unity.AppUI.Navigation.Generated;
 using Unity.AppUI.UI;
 using UnityEngine.UIElements;
+using Button = Unity.AppUI.UI.Button;
 
 namespace Runtime.UIToolkit.Views
 {
     public class TableScreen : BaseNavigationScreen<TableScreenViewModel>
     {
         private readonly VisualTreeAsset _rowTemplate;
-        private readonly IDataContainer _dataContainer;
         private GridView _gridView;
+        private ProgressButton _progressButton;
 
-        public TableScreen(TableScreenViewModel bindingContext, ITemplateLoader templateLoader,
-            IDataContainer dataContainer) : base(bindingContext)
+        public TableScreen(TableScreenViewModel bindingContext, ITemplateLoader templateLoader) : base(bindingContext)
         {
-            _dataContainer = dataContainer;
             _rowTemplate = templateLoader.GetTemplate(nameof(DataRowElement));
             BindingContext.PropertyChanged += OnPropertyChanged;
         }
@@ -36,7 +35,13 @@ namespace Runtime.UIToolkit.Views
             _gridView.makeItem = CreateItem;
             _gridView.bindItem = BindItem;
             _gridView.unbindItem = UnbindItem;
+            _progressButton = new ProgressButton()
+            {
+                title = "animate"
+            };
 
+            this.Q<VisualElement>("root").Add(_progressButton);
+            _progressButton.clickable.command = BindingContext.ShowAnimationCommand;
             base.InitializeComponent();
         }
 
@@ -54,6 +59,10 @@ namespace Runtime.UIToolkit.Views
             {
                 this.appBar.title = BindingContext.Release.Name;
                 _gridView.itemsSource = BindingContext.Release.Table;
+            }
+            else if (e.PropertyName == nameof(BindingContext.IsLoading))
+            {
+                _progressButton.IsProgress = BindingContext.IsLoading;
             }
         }
 
@@ -74,13 +83,8 @@ namespace Runtime.UIToolkit.Views
 
             row.Bind(elementRow);
 
+            row.IsReadOnly = !IsCanEditRow(releaseTable, i);
 
-
-            int rowNextIndex = i == 0 ? 1 : i - 1;
-            var previousRow = releaseTable.ElementAtOrDefault(rowNextIndex);
-
-            bool thisRowIsReadonly = previousRow is {Fact: 0};
-            row.IsReadOnly = thisRowIsReadonly;
             var disposable = row.OnChanged
                 .Subscribe(OnValueChanged);
 
@@ -92,8 +96,29 @@ namespace Runtime.UIToolkit.Views
 
         private void OnValueChanged(ReleaseDataRow row)
         {
-            _dataContainer.Update(BindingContext.Release);
+            BindingContext.SaveCommand.ExecuteAsync(row);
             _gridView.itemsSource = BindingContext.Release.Table;
         }
+
+
+        private static bool IsCanEditRow(ReleaseDataRow[] rows, int i)
+        {
+            bool isNextIsZero = rows.Skip(i + 1).All(x => x.Fact == 0);
+
+            if (i == 0)
+                return isNextIsZero;
+
+            bool isPreviousMoreZero = rows.Take(i).All(x => x.Fact > 0);
+            return isPreviousMoreZero && isNextIsZero;
+        }
+
+        // private static int GetMinValue(IReadOnlyList<ReleaseDataRow> rows, int i)
+        // {
+        //     if (i == 0)
+        //         return 0;
+        //
+        //     var previousRow = rows[i - 1];
+        //     return previousRow.Fact;
+        // }
     }
 }

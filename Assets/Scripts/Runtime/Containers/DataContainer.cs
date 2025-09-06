@@ -13,7 +13,7 @@ using Runtime.Interfaces.Loaders;
 using Runtime.Interfaces.Logging;
 using Runtime.Models;
 
-namespace Runtime.Core
+namespace Runtime.Containers
 {
     /// <summary>
     /// Container for ReleaseData.
@@ -33,10 +33,10 @@ namespace Runtime.Core
         private readonly IDirectoryHelper _directoryHelper;
         private readonly IFileHelper _fileHelper;
         private readonly ILogger<DataContainer> _logger;
-        private readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(ParallelTasks);
+        private readonly SemaphoreSlim _semaphoreSlim = new(ParallelTasks);
         private readonly CancellationTokenSource _cts = new();
 
-        public IList<ReleaseInfo> Data { get; set; }
+        public IList<ReleaseInfo> Data { get; private set; }
 
         public DataContainer(IPathHelper pathHelper, IDirectoryHelper directoryHelper, IFileHelper fileHelper,
             ILogger<DataContainer> logger)
@@ -50,9 +50,8 @@ namespace Runtime.Core
         public async UniTask Initialize(CancellationToken cancellationToken) =>
             await InitializeParallel(cancellationToken);
 
-        public void Update(ReleaseInfo releaseInfo) =>
-            _ = SaveItem(releaseInfo);
-
+        public async UniTask Update(ReleaseInfo releaseInfo, CancellationToken cancellationToken) =>
+            await SaveItem(releaseInfo, cancellationToken);
 
         private async UniTask InitializeParallel(CancellationToken cancellationToken)
         {
@@ -75,11 +74,11 @@ namespace Runtime.Core
 
             list.ObserveAdd()
                 .TakeUntil(token)
-                .Subscribe(d => _ = SaveItem(d.Value));
+                .Subscribe(SubscribeToAdd);
 
             list.ObserveRemove()
                 .TakeUntil(token)
-                .Subscribe(d => _ = DeleteItem(d.Value));
+                .Subscribe(SubscribeToRemove);
 
             Data = list;
 
@@ -107,20 +106,25 @@ namespace Runtime.Core
             }
         }
 
-        private async UniTask SaveItem(ReleaseInfo item)
+        private async UniTask SaveItem(ReleaseInfo item, CancellationToken cancellationToken)
         {
             var filePath = _pathHelper.GetFilePathOf(item);
-            _logger.LogInfo($"Create new file {filePath}");
-            await _fileHelper.SaveToFileAsync(filePath, item, cancellationToken: default);
+            _logger.LogInfo($"Save file at {filePath}");
+            await _fileHelper.SaveToFileAsync(filePath, item, cancellationToken: cancellationToken);
         }
 
-        private async UniTask DeleteItem(ReleaseInfo item)
+        private async UniTask DeleteItem(ReleaseInfo item, CancellationToken cancellationToken)
         {
             var filePath = _pathHelper.GetFilePathOf(item);
             _logger.LogInfo($"Delete file at {filePath}");
-            await _fileHelper.RemoveFile(filePath, default);
-            await _fileHelper.RemoveFile(System.IO.Path.ChangeExtension(filePath, "dt"), default);
+            await _fileHelper.RemoveFile(filePath, cancellationToken);
         }
+
+        private void SubscribeToAdd(CollectionAddEvent<ReleaseInfo> addEvt) =>
+            SaveItem(addEvt.Value, _cts.Token).Forget();
+
+        private void SubscribeToRemove(CollectionRemoveEvent<ReleaseInfo> removeEvt) =>
+            DeleteItem(removeEvt.Value, _cts.Token).Forget();
 
         public void Dispose()
         {

@@ -41,24 +41,16 @@ namespace Runtime.UIToolkit.Views
             _daysDropdown.SetBinding(BindingMode.TwoWay,
                 PropertyPath.FromName(nameof(CreateScreenViewModel.SelectedDay)));
 
-            _dateRangeField.SetBinding(BindingMode.TwoWay,
-                PropertyPath.FromName(nameof(CreateScreenViewModel.DateRange)));
-
-
-            _dateRangeField.RegisterValueChangedCallback(evt =>
-            {
-                UnityEngine.Debug.Log($"Change Daterange from {evt.previousValue} to {evt.newValue}");
-                BindingContext.DateRange = evt.newValue;
-            });
+            _dateRangeField.formatString = "d";
+            _dateRangeField.RegisterValueChangedCallback(evt => BindingContext.DateRange = evt.newValue);
 
             _daysDropdown.bindItem = (item, index) => item.label = BindingContext.DaysOptions[index];
             _daysDropdown.sourceItems = BindingContext.DaysOptions;
 
-            _createButton.clicked += BindingContext.CreateCommand.Execute;
+            _createButton.clickable.command = BindingContext.CreateCommand;
+            
             BindingContext.PropertyChanged += (_, evt) =>
             {
-                UnityEngine.Debug.Log($"Change property {evt.PropertyName}");
-
                 if (evt.PropertyName == nameof(BindingContext.Status))
                     OnNotification(BindingContext.Status);
             };
@@ -66,6 +58,7 @@ namespace Runtime.UIToolkit.Views
 
         private void OnNotification(string release)
         {
+            // TODO localization
             var toast = Toast.Build(this, $"Release created: {release}", NotificationDuration.Long)
                 .SetStyle(NotificationStyle.Informative)
                 .SetPosition(PopupNotificationPlacement.BottomRight)

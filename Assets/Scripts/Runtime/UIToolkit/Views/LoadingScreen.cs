@@ -13,9 +13,8 @@ namespace Runtime.UIToolkit.Views
             : base(viewModel)
         {
             var preloader = new Preloader();
+            Add(preloader);
             preloader.StretchToParentSize();
-
-            hierarchy.Add(preloader);
         }
 
         public override void OnEnter(NavController controller, NavDestination destination, Argument[] args)
