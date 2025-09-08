@@ -38,6 +38,7 @@ namespace Runtime.UIToolkit.ViewModels
 
         [CreateProperty(ReadOnly = true)] public RelayCommand CreateCommand { get; }
 
+
         public CreateScreenViewModel(NavHost navHost, IDataContainer dataContainer,
             ILogger<CreateScreenViewModel> logger, IReleaseGenerator releaseGenerator)
         {
@@ -47,13 +48,14 @@ namespace Runtime.UIToolkit.ViewModels
             _releaseGenerator = releaseGenerator;
 
             var now = DateTime.Now;
-            _dateRange = new DateRange(
-                now.AddDays(1), now.AddDays(7)
+            DateRange = new DateRange(
+                DateTime.Now.AddDays(1),
+                DateTime.Now.AddDays(7)
             );
 
-            _tasksNumber = 100;
-            _selectedDay = 0;
-            _releaseName = "";
+            TasksNumber = 100;
+            SelectedDay = 0;
+            ReleaseName = "";
 
             CreateCommand = new RelayCommand(CreateRelease);
             DaysOptions = new List<string>() {"пн", "вт", "ср", "чт", "пт", "сб", "вс"};
@@ -61,8 +63,6 @@ namespace Runtime.UIToolkit.ViewModels
 
         private void CreateRelease()
         {
-            // TODO validate fields
-
             DateTime startDate = this.DateRange.start;
             DateTime endDate = this.DateRange.end;
             var totalTasks = this.TasksNumber;

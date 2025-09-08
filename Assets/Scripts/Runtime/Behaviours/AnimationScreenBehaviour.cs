@@ -4,64 +4,109 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
-using Runtime.Behaviours.AnimationStates;
+using DG.Tweening;
+using R3;
+using Runtime.Behaviours.AnimationStates.CharacterStates;
+using Runtime.Behaviours.AnimationStates.CharacterStates.Payloads;
+using Runtime.Behaviours.AnimationStates.FlagStates;
+using Runtime.Behaviours.AnimationStates.FlagStates.Payloads;
+using Runtime.Interfaces.Behaviours;
 using Runtime.Models;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 namespace Runtime.Behaviours
 {
-    public sealed class AnimationScreenBehaviour : MonoBehaviour
+    public sealed class AnimationScreenBehaviour : MonoBehaviour, IAnimationBehaviour
     {
         [SerializeField] private PrefabOf<Character> characterPrefab;
         [SerializeField] private PrefabOf<FlagBehaviour> flagPrefab;
-
         [SerializeField] private MountainController mountain;
-        [SerializeField] private SerializableRow[] rows;
-
         [SerializeField] private AnimationSettings animationSettings;
+        [SerializeField] private Button backButton;
+        [SerializeField] private Button reloadButton;
 
-        private CancellationTokenSource _cts;
-        public ReleaseInfo ReleaseInfo { get; set; }
+        [Header("Debug")] [SerializeField] private SerializableRow[] rows;
 
         private readonly List<IDisposable> _animationStates = new List<IDisposable>();
 
-        /*
-         * *текущая позиция = последний заполненный факт. Следующий либо 0, либо его нет (план выполнен)
-         *
-         * +++
-         * Находим точку А (0% или предыдущая позиция)
-         * Находим точку Б (текущая позиция)
-         *
-         *
-         * Ставим точку А (персонажа)
-         * Ставим точку Б (флаг План)
-         *
-         */
-        public async UniTask PlayAnimation(CancellationToken cancellationToken)
+
+        // Linked cancellation token.
+        private CancellationTokenSource _cts;
+
+        private void Start()
         {
-            _animationStates.ForEach(x => x.Dispose());
-            _animationStates.Clear();
+            reloadButton.transform.localScale = Vector3.zero;
+            backButton.OnClickAsObservable()
+                .Subscribe(_ => _cts?.Cancel())
+                .AddTo(this);
+        }
+
+        public async UniTask PlayAnimation(ReleaseInfo releaseInfo, CancellationToken cancellationToken)
+        {
+            _cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
 
             try
             {
-                await CreateAnimationPipeline(cancellationToken);
+                while (_cts.Token.IsCancellationRequested == false)
+                {
+                    PrepareAnimation();
+
+                    await CreateAnimationPipeline(releaseInfo, _cts.Token);
+
+                    await reloadButton.transform
+                        .DOScale(Vector3.one, 0.33f)
+                        .ToUniTask(cancellationToken: _cts.Token);
+
+                    var needToReload = await WaitForReloadOrCancelAsync(_cts.Token);
+
+                    if (needToReload == false)
+                        break;
+                }
             }
-            catch (TaskCanceledException ex)
+            catch (TaskCanceledException)
             {
-                UnityEngine.Debug.Log("operation cancelled");
+                Debug.Log("operation cancelled");
+            }
+            catch (OperationCanceledException)
+            {
+                Debug.Log("operation cancelled");
+            }
+            finally
+            {
+                _cts?.Dispose();
+                _cts = null;
             }
         }
 
-
-        private async UniTask CreateAnimationPipeline(CancellationToken cancellationToken)
+        // Wait while reload button or back button is clicked.
+        private async UniTask<bool> WaitForReloadOrCancelAsync(CancellationToken cancellationToken)
         {
-            if (ReleaseInfo == null)
-                throw new System.NullReferenceException(nameof(ReleaseInfo));
+            var tcs = new UniTaskCompletionSource<bool>();
+            var reloadDisposable = reloadButton
+                .OnClickAsObservable()
+                .Subscribe(_ => tcs.TrySetResult(true));
+
+            try
+            {
+                await using (cancellationToken.Register(() => tcs.TrySetCanceled()))
+                    return await tcs.Task;
+            }
+            finally
+            {
+                reloadDisposable.Dispose();
+            }
+        }
+
+        private async UniTask CreateAnimationPipeline(ReleaseInfo releaseInfo, CancellationToken cancellationToken)
+        {
+            if (releaseInfo == null)
+                throw new NullReferenceException(nameof(releaseInfo));
 
 
-            var total = ReleaseInfo.TotalTasks;
-            ReleaseDataRow[] table = ReleaseInfo.Table;
+            var total = releaseInfo.TotalTasks;
+            ReleaseDataRow[] table = releaseInfo.Table;
 
             var currentRowIndex = GetCurrentRowIndex(table);
             var previousRow = currentRowIndex == 0 ? null : table[currentRowIndex - 1];
@@ -98,13 +143,13 @@ namespace Runtime.Behaviours
             _animationStates.Add(flagRotateState);
             _animationStates.Add(characterFallState);
 
-            await flagsState.Animate(new SpawnFlagsAnimationState.SpawnFlagPayload(table, currentRowIndex),
+            await flagsState.Animate(new SpawnFlagStatePayload(table, currentRowIndex),
                 cancellationToken);
 
-            await characterSpawnState.Animate(startedPosition, cancellationToken);
+            await characterSpawnState.Animate(new CharacterSpawnStatePayload(startedPosition), cancellationToken);
             var character = characterSpawnState.Result;
             await characterMoveState.Animate(
-                new CharacterWalkAnimationState.CharacterMovePayload(character, planPosition,
+                new CharacterMoveStatePayload(character, planPosition,
                     animationSettings.characterSpeed),
                 cancellationToken);
 
@@ -118,29 +163,29 @@ namespace Runtime.Behaviours
             if (nextPlan == nextFact && flagPlan != null)
             {
                 await flagRotateState.Animate(
-                    new RotateFlagAnimationState.RotateFlagPayload(flagPlan, hideFlagRotation),
+                    new RotateFlagStatePayload(flagPlan, hideFlagRotation),
                     cancellationToken);
 
                 flagPlan.SetColor(animationSettings.factColorEqualsPlan);
 
-                flagRotateState.Animate(new RotateFlagAnimationState.RotateFlagPayload(flagPlan, flagPlanRotation),
+                flagRotateState.Animate(new RotateFlagStatePayload(flagPlan, flagPlanRotation),
                     cancellationToken).Forget();
 
                 await characterHappyState.Animate(
-                    new CharacterHappyAnimationState.CharacterHappyPayload(character, 3), cancellationToken);
+                    new CharacterHappyStatePayload(character, 3), cancellationToken);
                 cancellationToken.ThrowIfCancellationRequested();
             }
 
             // when fact > plan
             else if (nextPlan < nextFact)
             {
-                var rotatePlanPayload = new RotateFlagAnimationState.RotateFlagPayload(
+                var rotatePlanPayload = new RotateFlagStatePayload(
                     flagPlan, hideFlagRotation);
 
                 flagRotateState.Animate(rotatePlanPayload, cancellationToken).Forget();
 
                 var characterMoveToTarget =
-                    new CharacterWalkAnimationState.CharacterMovePayload(character, factPosition,
+                    new CharacterMoveStatePayload(character, factPosition,
                         animationSettings.characterSpeed);
 
                 await characterMoveState.Animate(characterMoveToTarget, cancellationToken);
@@ -148,13 +193,13 @@ namespace Runtime.Behaviours
                 cancellationToken.ThrowIfCancellationRequested();
 
 
-                var flagPayload = new FlagInstantiateAnimationState.FlagPayload(
+                var flagPayload = new FlagInstantiateStatePayload(
                     factPosition, animationSettings.factColorMorePlan, nextFact, 4, LayerMask.GetMask("Default"));
 
 
                 await flagSpawnState.Animate(flagPayload, cancellationToken);
 
-                await characterHappyState.Animate(new CharacterHappyAnimationState.CharacterHappyPayload(character, 3),
+                await characterHappyState.Animate(new CharacterHappyStatePayload(character, 3),
                     cancellationToken);
 
                 cancellationToken.ThrowIfCancellationRequested();
@@ -163,21 +208,30 @@ namespace Runtime.Behaviours
             // when plan > fact
             else
             {
-                var rotatePayload = new RotateFlagAnimationState.RotateFlagPayload(flagPlan, hideFlagRotation);
+                var rotatePayload = new RotateFlagStatePayload(flagPlan, hideFlagRotation);
 
-                var characterFallPayload = new CharacterFallAnimationState.CharacterFallPayload(
+                var characterFallPayload = new CharacterFallStatePayload(
                     character, factPosition, animationSettings.characterFallSpeed);
 
                 flagRotateState.Animate(rotatePayload, cancellationToken).Forget();
                 await characterFallState.Animate(characterFallPayload, cancellationToken);
 
-                var flagPayload = new FlagInstantiateAnimationState.FlagPayload(factPosition,
+                var flagPayload = new FlagInstantiateStatePayload(factPosition,
                     animationSettings.factColorLessPlan, nextFact, 4, LayerMask.GetMask("Default"));
 
                 await flagSpawnState.Animate(flagPayload, cancellationToken);
             }
         }
 
+        private Vector3 MountainPositionFactory(float percentage) => mountain.GetPositionAt(percentage);
+
+        private void PrepareAnimation()
+        {
+            _animationStates.ForEach(x => x.Dispose());
+            _animationStates.Clear();
+
+            reloadButton.transform.DOScale(Vector3.zero, 0.33f);
+        }
 
         private static float ToPercentage(int current, int total) =>
             1f * current / total;
@@ -201,16 +255,14 @@ namespace Runtime.Behaviours
             return currentRowIndex;
         }
 
-        private Vector3 MountainPositionFactory(float percentage) => mountain.GetPositionAt(percentage);
-
 
         [ContextMenu(nameof(ShowDebug))]
         private void ShowDebug()
         {
             CancelDebug();
             _cts = new CancellationTokenSource();
-            ReleaseInfo = GenerateDebugReleaseInfo();
-            PlayAnimation(_cts.Token).Forget();
+            var release = GenerateDebugReleaseInfo();
+            PlayAnimation(release, _cts.Token).Forget();
         }
 
         [ContextMenu(nameof(CancelDebug))]
@@ -233,10 +285,9 @@ namespace Runtime.Behaviours
             };
         }
 
-        [System.Serializable]
+        [Serializable]
         public class SerializableRow
         {
-            public string date;
             public int plan;
             public int fact;
 
@@ -244,7 +295,7 @@ namespace Runtime.Behaviours
             {
                 return new ReleaseDataRow()
                 {
-                    Date = date,
+                    Date = DateTime.Now.ToString("d"),
                     Plan = plan,
                     Fact = fact
                 };

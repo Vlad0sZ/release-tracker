@@ -22,7 +22,7 @@ namespace Runtime.UIToolkit.Views
     public sealed class StartScreen : BaseNavigationScreen<StartScreenViewModel>
     {
         private ListView _listView;
-        private Label _emptyLabel;
+        private LocalizedTextElement _emptyLabel;
         private UIActionButton _createButton;
 
         private readonly VisualTreeAsset _dataItemTemplate;
@@ -35,10 +35,10 @@ namespace Runtime.UIToolkit.Views
         protected override void InitializeComponent()
         {
             _listView = this.Q<ListView>("previousDataScroll");
-            _emptyLabel = this.Q<Label>("emptyListLabel");
+            _emptyLabel = this.Q<LocalizedTextElement>("emptyListLabel");
             _createButton = this.Q<UIActionButton>("createNewButton");
             _createButton.clickable.command = BindingContext.CreateCommand;
-            
+
             BindingContext.PropertyChanged += OnPropertyChanged;
             InitializeListView();
 
@@ -106,11 +106,13 @@ namespace Runtime.UIToolkit.Views
 
         private void ShowDeleteToast(ReleaseInfo data)
         {
-            var toast = Toast.Build(this, $"Release {data.Name} was deleted.", NotificationDuration.Long)
+            var toast = Toast.Build(this, "@UI:toast.delete.text", NotificationDuration.Long)
                 .SetStyle(NotificationStyle.Negative)
                 .SetIcon("warning")
                 .SetPosition(PopupNotificationPlacement.BottomRight)
-                .AddAction(-1, "Cancel", t => { BindingContext.CancelDeleteCommand.Execute(data); }, true);
+                .SetVariables(data.Name)
+                .AddAction(-1, "@UI:toast.cancel.text", t => { BindingContext.CancelDeleteCommand.Execute(data); },
+                    true);
 
             toast.Show();
         }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Runtime.Behaviours;
 using Runtime.Containers;
-using Runtime.Interfaces.Containers;
+using Runtime.Interfaces.Behaviours;
 using Runtime.Interfaces.Services;
 using Runtime.Services;
 using Runtime.UIToolkit.Extensions;
@@ -17,6 +18,7 @@ namespace Runtime.UIToolkit
     {
         [SerializeField] private VisualTreeAsset[] templates;
         [SerializeField] private NavGraphViewAsset navigationGraph;
+        [SerializeField] private AnimationScreenBehaviour animationScreen;
 
         protected override void OnAppInitialized(ReleaseTrackerApp app)
         {
@@ -34,6 +36,8 @@ namespace Runtime.UIToolkit
 
 
             appConfiguration.Services.AddSingleton<AssetProvider>(new AssetProvider(templates, navigationGraph));
+            appConfiguration.Services.AddSingleton<IAnimationBehaviour>(animationScreen);
+
             appConfiguration.Services.AddSingleton<NavHost>();
             appConfiguration.Services.AddSingleton<IDestinationFactory, DestinationFactory>();
             appConfiguration.Services.AddSingleton<INavVisualController, NavigationController>();
@@ -41,6 +45,12 @@ namespace Runtime.UIToolkit
 
             appConfiguration.Services.Register<DataContainer>()
                 .AsImplementedInterfaces<DataContainer>();
+
+            appConfiguration.Services.Register<LanguageService>()
+                .AsImplementedInterfaces<LanguageService>();
+
+            appConfiguration.Services.Register<ThemeService>()
+                .AsImplementedInterfaces<ThemeService>();
 
             appConfiguration.Services.AddScoped<IReleaseGenerator, ReleaseGenerator>();
 

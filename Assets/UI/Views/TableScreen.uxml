@@ -1,10 +1,10 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:appui="Unity.AppUI.UI" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:VisualElement name="root" class="root-main" style="margin-top: 16px; align-content: center; flex-direction: column; flex-basis: auto; flex-wrap: nowrap; align-items: stretch; flex-grow: 1; justify-content: center; align-self: center;">
         <ui:VisualElement style="flex-grow: 1; flex-direction: row; margin-bottom: 2px;">
-            <appui:FieldLabel name="header-date" label="Date" style="margin-right: 4px; width: 120px;" />
-            <appui:FieldLabel name="header-plan" label="Plan" style="margin-right: 4px; width: 80px;" />
-            <appui:FieldLabel name="header-fact" label="Fact" style="margin-right: 4px; width: 80px;" />
-            <appui:FieldLabel name="header-percentage" label="Percentage" style="width: 80px;" />
+            <appui:FieldLabel name="header-date" label="@UI:table.header.date" label-overflow="Normal" style="margin-right: 4px; width: 120px;" />
+            <appui:FieldLabel name="header-plan" label="@UI:table.header.plan" label-overflow="Normal" focusable="false" style="margin-right: 4px; width: 80px; align-items: center;" />
+            <appui:FieldLabel name="header-fact" label="@UI:table.header.fact" label-overflow="Normal" style="margin-right: 4px; width: 80px;" />
+            <appui:FieldLabel name="header-percentage" label="@UI:table.header.percentage" label-overflow="Normal" style="width: 90px;" />
         </ui:VisualElement>
         <appui:GridView name="grid-view" style="height: 300px; width: 400px; margin-bottom: 14px;" />
     </ui:VisualElement>

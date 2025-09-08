@@ -1,0 +1,33 @@
+{
+    "name": "Runtime",
+    "rootNamespace": "",
+    "references": [
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:2f101f87087d58f4ba92ca00188e763d",
+        "GUID:f7898ee836234b98a20cbddc2a6e0b08",
+        "GUID:9c739b017e1d4fdabf06fa2d84a463c3",
+        "GUID:b5b4ae5f8d9adb1428cc7d3843830143",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:029c1c1b674aaae47a6841a0b89ad80e",
+        "GUID:77221876cc6b8244180b96e320b1bcd4",
+        "GUID:eec0964c48f6f4e40bc3ec2257ccf8c5",
+        "GUID:84651a3751eca9349aac36a66bba901b"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "DOTween.dll",
+        "R3.dll",
+        "ObservableCollections.dll",
+        "ObservableCollections.R3.dll",
+        "Microsoft.Extensions.DependencyInjection.dll",
+        "Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "Newtonsoft.Json.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

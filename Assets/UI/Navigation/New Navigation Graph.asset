@@ -65,20 +65,20 @@ MonoBehaviour:
   - {fileID: 4311268787349623583}
   m_Label: Start screen with data
   m_TemplateSettings:
-    rid: 2681954766432502006
+    rid: 6551168641727463666
   m_Arguments: []
   references:
     version: 2
     RefIds:
-    - rid: 2681954766432502006
-      type: {class: DependencyDestinationTemplate, ns: Runtime.Navigation, asm: Assembly-CSharp}
+    - rid: 6551168641727463666
+      type: {class: DependencyDestinationTemplate, ns: Runtime.Navigation, asm: Runtime}
       data:
-        m_ScreenType: Runtime.UIToolkit.Views.StartScreen, Assembly-CSharp, Version=0.0.0.0,
+        m_ScreenType: Runtime.UIToolkit.Views.StartScreen, Runtime, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_ShowBottomNavBar: 0
-        m_ShowAppBar: 0
+        m_ShowAppBar: 1
         m_ShowBackButton: 0
-        m_ShowDrawer: 0
+        m_ShowDrawer: 1
         m_ShowNavigationRail: 0
 --- !u!114 &-3429700363682080803
 MonoBehaviour:
@@ -126,15 +126,15 @@ MonoBehaviour:
   - {fileID: -3429700363682080803}
   m_Label: loading page
   m_TemplateSettings:
-    rid: 2681954766432501861
+    rid: 6551168641727463665
   m_Arguments: []
   references:
     version: 2
     RefIds:
-    - rid: 2681954766432501861
-      type: {class: DependencyDestinationTemplate, ns: Runtime.Navigation, asm: Assembly-CSharp}
+    - rid: 6551168641727463665
+      type: {class: DependencyDestinationTemplate, ns: Runtime.Navigation, asm: Runtime}
       data:
-        m_ScreenType: Runtime.UIToolkit.Views.LoadingScreen, Assembly-CSharp, Version=0.0.0.0,
+        m_ScreenType: Runtime.UIToolkit.Views.LoadingScreen, Runtime, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_ShowBottomNavBar: 0
         m_ShowAppBar: 0
@@ -187,15 +187,15 @@ MonoBehaviour:
   - {fileID: -7517444411933802586}
   m_Label: Create Screen
   m_TemplateSettings:
-    rid: 2681954768577626171
+    rid: 6551168641727463667
   m_Arguments: []
   references:
     version: 2
     RefIds:
-    - rid: 2681954768577626171
-      type: {class: DependencyDestinationTemplate, ns: Runtime.Navigation, asm: Assembly-CSharp}
+    - rid: 6551168641727463667
+      type: {class: DependencyDestinationTemplate, ns: Runtime.Navigation, asm: Runtime}
       data:
-        m_ScreenType: Runtime.UIToolkit.Views.CreateScreen, Assembly-CSharp, Version=0.0.0.0,
+        m_ScreenType: Runtime.UIToolkit.Views.CreateScreen, Runtime, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_ShowBottomNavBar: 0
         m_ShowAppBar: 1
@@ -236,7 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78073c03d6154685bf631e4ad244b9b8, type: 3}
   m_Name: start_to_table
   m_EditorClassIdentifier: Unity.AppUI.Navigation::Unity.AppUI.Navigation.NavAction
-  m_Position: {x: 2101, y: 596}
+  m_Position: {x: 1816, y: 423}
   m_Guid: 9b0a2cd0-0f27-405b-93c6-9105135e0b07
   m_Destination: {fileID: 5739131698117187501}
   m_Options:
@@ -263,21 +263,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819e9866b5cc41e7ac482ba5fe89e09b, type: 3}
   m_Name: table_screen
   m_EditorClassIdentifier: Unity.AppUI.Navigation::Unity.AppUI.Navigation.NavDestination
-  m_Position: {x: 2945, y: 147}
+  m_Position: {x: 2842, y: 321}
   m_Guid: f9d7e8bece0899c44815e168c8a25059
   m_Parent: {fileID: -6271761687539378237}
   m_Actions: []
   m_Label: Table screen with grid view
   m_TemplateSettings:
-    rid: 6551168549983355211
+    rid: 6551168641727463668
   m_Arguments: []
   references:
     version: 2
     RefIds:
-    - rid: 6551168549983355211
-      type: {class: DependencyDestinationTemplate, ns: Runtime.Navigation, asm: Assembly-CSharp}
+    - rid: 6551168641727463668
+      type: {class: DependencyDestinationTemplate, ns: Runtime.Navigation, asm: Runtime}
       data:
-        m_ScreenType: Runtime.UIToolkit.Views.TableScreen, Assembly-CSharp, Version=0.0.0.0,
+        m_ScreenType: Runtime.UIToolkit.Views.TableScreen, Runtime, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_ShowBottomNavBar: 0
         m_ShowAppBar: 1

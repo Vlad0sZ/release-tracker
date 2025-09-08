@@ -2,25 +2,25 @@
          editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd"
          editor-extension-mode="False">
     <ui:VisualElement class="root-main" style="height: 100%; width: 60%; align-self: center; align-content: stretch;">
-        <appui:InputLabel direction="Horizontal" label="Release Name" required="true" help-variant="Default">
-            <appui:TextField name="releaseNameField" placeholder="Enter release name" size="M" max-length="50" />
+        <appui:InputLabel direction="Horizontal" label="@UI:create.name.label" required="true" help-variant="Default">
+            <appui:TextField name="releaseNameField" placeholder="@UI:create.name.placeholder" size="M" max-length="50" />
         </appui:InputLabel>
         <ui:VisualElement style="flex-grow: 1; flex-direction: column; flex-basis: auto;" />
-        <appui:InputLabel direction="Vertical" label="Release Dates" required="true" help-variant="Default">
+        <appui:InputLabel direction="Vertical" label="@UI:create.date.label" required="true" help-variant="Default">
             <appui:DateRangeField name="dateRangePicker" />
         </appui:InputLabel>
         <ui:VisualElement style="flex-grow: 1;" />
         <ui:VisualElement name="VisualElement"
                           style="flex-direction: row; width: auto; margin-bottom: 16px; align-items: auto; justify-content: space-between; align-content: stretch; align-self: stretch;">
-            <appui:InputLabel direction="Vertical" label="Total Tasks" required="true" help-variant="Default">
+            <appui:InputLabel direction="Vertical" label="@UI:create.task.label" required="true" help-variant="Default">
                 <appui:IntField name="totalTasksField" min="0" size="M" style="width: 100%;" />
             </appui:InputLabel>
-            <appui:InputLabel direction="Vertical" label="Check-in Day" required="true" help-variant="Default">
+            <appui:InputLabel direction="Vertical" label="@UI:create.day.label" required="true" help-variant="Default">
                 <appui:Dropdown name="checkInDayDropdown" style="width: 100%;" />
             </appui:InputLabel>
         </ui:VisualElement>
         <ui:VisualElement style="flex-grow: 2;" />
-        <appui:Button title="Create" name="createButton"
+        <appui:Button title="@UI:create.button.text" name="createButton"
                       style="width: 200px; height: 48px; self-align: right; align-self: flex-end;" />
     </ui:VisualElement>
 </ui:UXML>

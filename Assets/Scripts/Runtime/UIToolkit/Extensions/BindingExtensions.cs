@@ -22,7 +22,7 @@ namespace Runtime.UIToolkit.Extensions
             }
             else
             {
-                UnityEngine.Debug.LogWarning($"No one binding for {typeof(TextField)}");
+                UnityEngine.Debug.LogWarning($"No one binding for {typeof(TElement)}");
             }
         }
 

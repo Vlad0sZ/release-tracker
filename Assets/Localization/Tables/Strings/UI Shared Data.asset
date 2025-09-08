@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: UI Shared Data
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
+  m_TableCollectionName: UI
+  m_TableCollectionNameGuidString: 1f633b48b4a0fa14fba940475f7d4314
+  m_Entries:
+  - m_Id: 63668617216
+    m_Key: start.create.text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 90520551424
+    m_Key: start.create.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 131733782528
+    m_Key: start.list.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 176919019520
+    m_Key: start.list.empty
+    m_Metadata:
+      m_Items: []
+  - m_Id: 198741983232
+    m_Key: start.delete.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 268048662528
+    m_Key: start.select.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 315276525568
+    m_Key: create.name.label
+    m_Metadata:
+      m_Items: []
+  - m_Id: 560005775360
+    m_Key: create.name.placeholder
+    m_Metadata:
+      m_Items: []
+  - m_Id: 612019339264
+    m_Key: create.date.label
+    m_Metadata:
+      m_Items: []
+  - m_Id: 711634059264
+    m_Key: create.task.label
+    m_Metadata:
+      m_Items: []
+  - m_Id: 749596704768
+    m_Key: create.day.label
+    m_Metadata:
+      m_Items: []
+  - m_Id: 777493020672
+    m_Key: create.button.text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1449068199936
+    m_Key: create.day.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1673249554432
+    m_Key: table.header.date
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1797614862336
+    m_Key: table.header.plan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1819223916544
+    m_Key: table.header.fact
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1838299611136
+    m_Key: table.header.percentage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2068751450112
+    m_Key: table.button.text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2090247258112
+    m_Key: table.button.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884140924928
+    m_Key: toast.create.text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3166400806912
+    m_Key: toast.delete.text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3266325905408
+    m_Key: toast.dismiss.text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3326413504512
+    m_Key: toast.cancel.text
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 6551168641727463914
+  references:
+    version: 2
+    RefIds:
+    - rid: 6551168641727463914
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1757316120027

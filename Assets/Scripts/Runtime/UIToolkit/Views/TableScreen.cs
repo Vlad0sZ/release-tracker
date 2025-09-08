@@ -35,9 +35,11 @@ namespace Runtime.UIToolkit.Views
             _gridView.makeItem = CreateItem;
             _gridView.bindItem = BindItem;
             _gridView.unbindItem = UnbindItem;
+
             _progressButton = new ProgressButton()
             {
-                title = "animate"
+                title = "@UI:table.button.text",
+                tooltip = "@UI:table.button.tooltip"
             };
 
             this.Q<VisualElement>("root").Add(_progressButton);
@@ -111,14 +113,5 @@ namespace Runtime.UIToolkit.Views
             bool isPreviousMoreZero = rows.Take(i).All(x => x.Fact > 0);
             return isPreviousMoreZero && isNextIsZero;
         }
-
-        // private static int GetMinValue(IReadOnlyList<ReleaseDataRow> rows, int i)
-        // {
-        //     if (i == 0)
-        //         return 0;
-        //
-        //     var previousRow = rows[i - 1];
-        //     return previousRow.Fact;
-        // }
     }
 }

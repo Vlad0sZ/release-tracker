@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using Runtime.Interfaces.IO;
+using Runtime.Interfaces.Logging;
 
 namespace Runtime.IO
 {
@@ -14,6 +15,15 @@ namespace Runtime.IO
     [UsedImplicitly]
     internal sealed class FileHelperJson : IFileHelper
     {
+        private readonly ILogger<IFileHelper> _logger;
+
+        /// <summary>
+        /// Constructor with logger;
+        /// </summary>
+        /// <param name="logger">logger.</param>
+        public FileHelperJson(ILogger<IFileHelper> logger) =>
+            _logger = logger;
+
         /// <summary>
         /// Load data-class from file as JSON.
         /// </summary>
@@ -27,8 +37,16 @@ namespace Runtime.IO
             if (File.Exists(path) == false)
                 throw new FileNotFoundException($"File at path {path} does not exists");
 
-            string data = await File.ReadAllTextAsync(path, cancellationToken);
-            return JsonConvert.DeserializeObject<T>(data);
+            try
+            {
+                string data = await File.ReadAllTextAsync(path, cancellationToken);
+                return JsonConvert.DeserializeObject<T>(data);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogException(ex);
+                return default;
+            }
         }
 
         /// <summary>
@@ -41,19 +59,27 @@ namespace Runtime.IO
         /// <typeparam name="T">Type of data-class.</typeparam>
         public async UniTask SaveToFileAsync<T>(string path, T context, CancellationToken cancellationToken)
         {
-            var data = JsonConvert.SerializeObject(context);
-            await File.WriteAllTextAsync(path, data, cancellationToken);
+            try
+            {
+                var data = JsonConvert.SerializeObject(context);
+                await File.WriteAllTextAsync(path, data, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogException(ex);
+            }
         }
 
         public UniTask RemoveFile(string path, CancellationToken cancellationToken)
         {
             try
             {
-                File.Delete(path);
+                if (File.Exists(path))
+                    File.Delete(path);
             }
             catch (Exception ex)
             {
-                // ignored
+                _logger.LogException(ex);
             }
 
             return UniTask.CompletedTask;

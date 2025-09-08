@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Runtime.Commands;
+using Runtime.Interfaces.Behaviours;
 using Runtime.Interfaces.Containers;
 using Runtime.Interfaces.Logging;
 using Runtime.Interfaces.UI;
@@ -22,6 +23,8 @@ namespace Runtime.UIToolkit.ViewModels
 
         private readonly IApp<UIToolkitHost> _app;
 
+        private readonly IAnimationBehaviour _animationBehaviour;
+
         [ObservableProperty] private ReleaseInfo _release;
 
         [ObservableProperty] private bool _isLoading;
@@ -34,9 +37,11 @@ namespace Runtime.UIToolkit.ViewModels
             set => SetRelease(value);
         }
 
-        public TableScreenViewModel(IDataContainer dataContainer, ILogger<TableScreenViewModel> logger)
+        public TableScreenViewModel(IDataContainer dataContainer, IAnimationBehaviour animationBehaviour,
+            ILogger<TableScreenViewModel> logger)
         {
             _logger = logger;
+            _animationBehaviour = animationBehaviour;
             _dataContainer = dataContainer;
             SaveCommand = new AsyncUniRelayCommand(SaveReleaseData);
             ShowAnimationCommand = new AsyncUniRelayCommand(ShowAnimation);
@@ -70,10 +75,10 @@ namespace Runtime.UIToolkit.ViewModels
             }
         }
 
-        private async UniTask ShowAnimation()
+        private async UniTask ShowAnimation(CancellationToken cancellationToken)
         {
             App.current.rootVisualElement.style.display = DisplayStyle.None;
-            await UniTask.Delay(4000);
+            await _animationBehaviour.PlayAnimation(Release, cancellationToken);
             App.current.rootVisualElement.style.display = DisplayStyle.Flex;
         }
     }
